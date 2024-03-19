@@ -16,8 +16,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { login } from "../services/AuthService";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { saveInfoFromToken } from "../utils/TokenUtil";
 
 export default function LoginComponent() {
   const [credentials, setCredentials] = useState({
@@ -39,14 +38,7 @@ export default function LoginComponent() {
         throw new Error("Token not found!");
       }
 
-      const decodedToken = jwtDecode(token);
-      const userInfo = {
-        userId: decodedToken.id,
-        name: decodedToken.name,
-        email: decodedToken.email,
-        role: decodedToken.role,
-      };
-      Cookies.set("userInfo", JSON.stringify(userInfo));
+      saveInfoFromToken(token);
     } catch (error) {
       setError(true);
       console.error(error);
@@ -64,7 +56,7 @@ export default function LoginComponent() {
           <CardBody>
             <VStack>
               <form onSubmit={handleSubmit}>
-                <FormControl>
+                <FormControl isRequired="true">
                   <FormLabel>Email</FormLabel>
                   <Input
                     type="email"
@@ -74,7 +66,7 @@ export default function LoginComponent() {
                     }}
                   ></Input>
                 </FormControl>
-                <FormControl>
+                <FormControl isRequired="true">
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
