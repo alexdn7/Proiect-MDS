@@ -71,4 +71,13 @@ const login = async (request, response) => {
   }
 };
 
-module.exports = { register, login };
+const logout = async (request, response) => {
+  try {
+    response.clearCookie("userInfo");
+    response.status(StatusCodes.OK).json({ message: "Logout succesful" });
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).json({ message: `${error}` });
+  }
+};
+
+module.exports = { register, login, logout };

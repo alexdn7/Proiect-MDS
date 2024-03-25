@@ -1,18 +1,26 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import { Box, Flex, Stack, HStack, VStack } from "@chakra-ui/react";
-import { px } from "framer-motion";
+import Cookies from "js-cookie";
+import HomePage from "../components/HomePage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
 
 function App() {
+  const userInfo = Cookies.get("userInfo");
+
   return (
-    <div className="App">
-      {/* <LoginComponent/> */}
-      <RegisterComponent />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<HomePage isLogged={userInfo} />} path="/"></Route>
+        <Route element={<HomePage isLogged={userInfo} />} path="/home"></Route>
+        {userInfo ? null : (
+          <>
+            <Route element={<LoginComponent />} path="/login"></Route>
+            <Route element={<RegisterComponent />} path="/register"></Route>
+          </>
+        )}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

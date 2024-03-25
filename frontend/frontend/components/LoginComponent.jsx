@@ -8,7 +8,6 @@ import {
   Input,
   Button,
   Text,
-  Link,
   HStack,
   VStack,
   Flex,
@@ -17,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { login } from "../services/AuthService";
 import { saveInfoFromToken } from "../utils/TokenUtil";
+import { Link } from "react-router-dom";
 
 export default function LoginComponent() {
   const [credentials, setCredentials] = useState({
@@ -104,7 +104,9 @@ export default function LoginComponent() {
               </form>
               <HStack>
                 <Text>New here?</Text>
-                <Link>Create an account</Link>
+                <Link to="/register">
+                  <Button>Create an account</Button>
+                </Link>
               </HStack>
             </VStack>
           </CardBody>

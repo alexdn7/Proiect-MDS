@@ -9,13 +9,13 @@ import {
   Input,
   Select,
   HStack,
-  Link,
   Text,
   Button,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { register } from "../services/AuthService";
 import { saveInfoFromToken } from "../utils/TokenUtil";
+import { Link } from "react-router-dom";
 
 export default function RegisterComponent() {
   const [userDetails, setUserDetails] = useState({
@@ -79,6 +79,7 @@ export default function RegisterComponent() {
                   >
                     <option>TESTER</option>
                     <option>DEVELOPER</option>
+                    <option>MANAGER</option>
                   </Select>
                 </FormControl>
                 <FormControl isRequired="true">
@@ -94,13 +95,27 @@ export default function RegisterComponent() {
                     }
                   />
                 </FormControl>
-                <Button marginTop="10px" type="submit" bg="aqua">
+                <Button
+                  marginTop="10px"
+                  type="submit"
+                  bg="aqua"
+                  isDisabled={
+                    userDetails.email === "" ||
+                    userDetails.password === "" ||
+                    userDetails.name === "" ||
+                    userDetails.role === ""
+                      ? true
+                      : false
+                  }
+                >
                   Register
                 </Button>
               </form>
               <HStack>
                 <Text>Already have an account?</Text>
-                <Link>Login</Link>
+                <Link to="/login">
+                  <Button marginTop="10px">Login</Button>
+                </Link>
               </HStack>
             </VStack>
           </CardBody>
