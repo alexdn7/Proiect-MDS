@@ -3,6 +3,21 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  role Role
+  password String
+}
+
+enum Role {
+  TESTER
+  DEVELOPER
+  MANAGER
+  ADMIN
 }
