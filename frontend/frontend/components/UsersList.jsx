@@ -9,13 +9,13 @@ import {
   VStack,
   Button,
   CardHeader,
-  Text,
   Select,
   Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deleteUser, getAllUsers } from "../services/UserService";
 import { getUserInfoFromCookiesToken } from "../utils/TokenUtil";
+import { Link } from "react-router-dom";
 export default function UsersList() {
   const [users, setUsers] = useState([]);
   const userInfo = getUserInfoFromCookiesToken();
@@ -91,7 +91,9 @@ export default function UsersList() {
               <VStack>
                 <h4>Actions</h4>
                 <HStack></HStack>
-                <Button bg={"green"}>View profile</Button>
+                <Link to={`/users/${user.id}`}>
+                  <Button bg={"green"}>View profile</Button>
+                </Link>
                 {userInfo.role === "ADMIN" ? (
                   <Button bg={"red"} onClick={() => handleDeleteUser(user.id)}>
                     Delete user

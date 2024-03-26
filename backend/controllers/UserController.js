@@ -14,7 +14,20 @@ const getAllUsers = async (request, response) => {
   } catch (error) {
     response
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: `Errro fetching data ${error}` });
+      .json({ message: `Error fetching data ${error}` });
+  }
+};
+
+const getUserById = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const user = await prisma.user.findUniqueOrThrow({ where: { id: parseInt(id) } });
+    const {password, ...userWithoutPassword} = user;
+    response.status(StatusCodes.OK).json(userWithoutPassword);
+  } catch (error) {
+    response
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: `Error fetching data ${error}` });
   }
 };
 
@@ -38,4 +51,4 @@ const deleteUser = async (request, response) => {
   }
 };
 
-module.exports = { getAllUsers, deleteUser };
+module.exports = { getAllUsers, getUserById, deleteUser };
