@@ -15,8 +15,8 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { login } from "../services/AuthService";
-import { saveInfoFromToken } from "../utils/TokenUtil";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 export default function LoginComponent() {
   const [credentials, setCredentials] = useState({
@@ -38,7 +38,7 @@ export default function LoginComponent() {
         throw new Error("Token not found!");
       }
 
-      saveInfoFromToken(token);
+      Cookies.set("token", token);
     } catch (error) {
       setError(true);
       console.error(error);
