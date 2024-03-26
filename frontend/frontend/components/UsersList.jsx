@@ -21,6 +21,10 @@ export default function UsersList() {
   const userInfo = getUserInfoFromCookiesToken();
 
   useEffect(() => {
+    getAndSetUsers();
+  }, []);
+
+  function getAndSetUsers() {
     getAllUsers()
       .then((response) => {
         setUsers(response.data);
@@ -28,11 +32,12 @@ export default function UsersList() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }
 
   async function handleDeleteUser(id) {
     try {
       await deleteUser(id);
+      getAndSetUsers();
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +50,7 @@ export default function UsersList() {
           <VStack>
             <span>Filter by</span>
             <HStack>
-              <span>Role</span>
+              <span>ROLE:</span>
               <Select>
                 <option>TESTER</option>
                 <option>DEVELOPER</option>
@@ -53,6 +58,17 @@ export default function UsersList() {
                 <option>ADMIN</option>
               </Select>
             </HStack>
+            <span>Order by</span>
+            <Select>
+              <option>ID</option>
+              <option>Name</option>
+              <option>Role</option>
+            </Select>
+            <span>Ordering direction</span>
+            <Select>
+              <option>Ascending</option>
+              <option>Descending</option>
+            </Select>
           </VStack>
         </Center>
       </GridItem>
