@@ -14,8 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { register } from "../services/AuthService";
-import { saveInfoFromToken } from "../utils/TokenUtil";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function RegisterComponent() {
   const [userDetails, setUserDetails] = useState({
@@ -35,9 +35,10 @@ export default function RegisterComponent() {
       if (!token) {
         throw new Error("Token not found");
       }
-
-      saveInfoFromToken(token);
-    } catch (error) {}
+      Cookies.set("token", token);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

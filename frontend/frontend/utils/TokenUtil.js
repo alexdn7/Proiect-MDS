@@ -1,8 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 
-export const saveInfoFromToken = (token) => {
+export const getUserInfoFromCookiesToken = () => {
   try {
+    const token = Cookies.get("token");
     const decodedToken = jwtDecode(token);
     const userInfo = {
       userId: decodedToken.id,
@@ -10,7 +11,7 @@ export const saveInfoFromToken = (token) => {
       email: decodedToken.email,
       role: decodedToken.role,
     };
-    Cookies.set("userInfo", JSON.stringify(userInfo), { expires: 1 });
+    return userInfo;
   } catch (error) {
     console.error(error);
   }
