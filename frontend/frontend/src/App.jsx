@@ -6,6 +6,8 @@ import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
 import UsersList from "../components/UsersList";
 import { getUserInfoFromCookiesToken } from "../utils/TokenUtil";
+import Header from "../components/Header";
+import GridContent from "../components/GridContent";
 
 function App() {
   const token = Cookies.get("token");
@@ -14,17 +16,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<HomePage isLogged={token} />} path="/"></Route>
-        <Route element={<HomePage isLogged={token} />} path="/home"></Route>
-        {token ? (
-          <Route element={<UsersList />} path="/users"></Route>
-        ) : (
-          <>
-            <Route element={<LoginComponent />} path="/login"></Route>
-            <Route element={<RegisterComponent />} path="/register"></Route>
-          </>
-        )}
-        <Route path="*" element={<Navigate to="/" />}></Route>
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/register" element={<RegisterComponent />} />
+        <Route path="*" element={<GridContent />} />
       </Routes>
     </BrowserRouter>
   );
