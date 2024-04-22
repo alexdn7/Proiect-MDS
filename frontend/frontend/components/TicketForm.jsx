@@ -10,10 +10,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import {
-  getAllProjects,
-  getProjectMembers,
-} from "../services/ProjectService";
+import { getAllProjects, getProjectMembers } from "../services/ProjectService";
+import { createTicket } from "../services/TicketService";
 
 export default function TicketForm() {
   const [projectMembers, setProjectMembers] = useState([]);
@@ -22,10 +20,10 @@ export default function TicketForm() {
     title: "",
     description: "",
     priority: "",
-    createdBy: "1",
+    createdBy: 1,
     projectId: "",
     assignedTo: "",
-    status: "CREATED"
+    status: "CREATED",
   });
 
   useEffect(() => {
@@ -42,6 +40,15 @@ export default function TicketForm() {
       });
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = createTicket(details);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function getAndSetProjects() {
     getAllProjects()
       .then((response) => {
@@ -51,6 +58,19 @@ export default function TicketForm() {
         console.error(error);
       });
   }
+
+  function isCompleted() {
+    if (
+      Object.values(details).some(
+        (value) =>
+          value === "" || (value instanceof Array && value.length === 0)
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <Flex
       justifyContent="center"
@@ -66,7 +86,7 @@ export default function TicketForm() {
         backgroundColor="white"
       >
         <Heading>Add a new ticket</Heading>
-        <form style={{ width: 100 + "%", padding: 10 }}>
+        <form style={{ width: 100 + "%", padding: 10 }} onSubmit={handleSubmit}>
           <FormControl isRequired="true" marginBottom="5px">
             <FormLabel>Title</FormLabel>
             <InputGroup>
@@ -112,9 +132,10 @@ export default function TicketForm() {
             </InputGroup>
           </FormControl>
           <FormControl isRequired={true} marginBottom="5px">
-            <FormLabel>Project</FormLabel>
+            <FormLabel htmlFor="selectProject">Project</FormLabel>
             <InputGroup>
               <Select
+                id="selectProject"
                 value={details.projectId}
                 onChange={(e) => {
                   setDetails({
@@ -122,8 +143,13 @@ export default function TicketForm() {
                     projectId: parseInt(e.target.value),
                   });
                 }}
-                color="black"
               >
+                <option disabled value="">
+                  Choose project
+                </option>
+                {projects.length === 0 ? (
+                  <option disabled>There are no projects, try again!</option>
+                ) : null}
                 {projects.map((project) => (
                   <option key={project.id} value={project.id}>
                     {project.title}
@@ -134,18 +160,29 @@ export default function TicketForm() {
           </FormControl>
           {details.projectId === "" ? null : (
             <FormControl isRequired={true} marginBottom="5px">
-              <FormLabel>Assign to</FormLabel>
+              <FormLabel htmlFor="selectDeveloper">Assign to</FormLabel>
               <InputGroup>
                 <Select
+                  id="selectDeveloper"
                   onClick={() => getAndSetProjectInfo(details.projectId)}
-                  value={details.projectId}
+                  value={details.assignedTo}
                   onChange={(e) => {
                     setDetails({
                       ...details,
-                      projectId: parseInt(e.target.value),
+                      assignedTo: parseInt(e.target.value),
                     });
                   }}
                 >
+                  <option disabled value="">
+                    Choose developer
+                  </option>
+
+                  {projectMembers.length === 0 ? (
+                    <option disabled>
+                      There are no members for this project, try again!
+                    </option>
+                  ) : null}
+                  
                   {projectMembers.map((member) => (
                     <option key={member.id} value={member.id}>
                       {member.name} - {member.role}
@@ -158,7 +195,7 @@ export default function TicketForm() {
           <Button
             type="submit"
             width="80%"
-            // isDisabled={!isCompleted()}
+            isDisabled={!isCompleted()}
             backgroundColor={"teal"}
             marginTop="15px"
           >
