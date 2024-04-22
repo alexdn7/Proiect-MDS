@@ -10,8 +10,8 @@ import Header from "../components/Header";
 import GridContent from "../components/GridContent";
 
 function App() {
-  const token = Cookies.get("token");
-  const userInfo = getUserInfoFromCookiesToken();
+  // const token = Cookies.get("token");
+  // const userInfo = getUserInfoFromCookiesToken();
 
   return (
     <BrowserRouter>

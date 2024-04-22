@@ -3,8 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  background-color: #1B4575;
+  color-scheme: teal;
+  background-color: gray;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,6 +16,6 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 100vw;
-  min-height: 100vh;
+  min-width: calc(100vw - 30px);
+  min-height: calc(100vh - 30px);
 }
