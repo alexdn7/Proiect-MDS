@@ -8,9 +8,10 @@ export default function Header() {
     <HStack
       justifyContent="space-between"
       paddingX="2%"
-      margin="0"
+      padding="10px"
       alignItems="center"
-      height="100%"
+      border="1px solid black"
+      backgroundColor="teal"
     >
       <Box>Logo</Box>
       <HStack alignContent={"center"}>

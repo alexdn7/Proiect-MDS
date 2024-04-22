@@ -13,10 +13,11 @@ import {
   Flex,
   InputGroup,
   InputRightElement,
+  Heading,
 } from "@chakra-ui/react";
 import { login } from "../services/AuthService";
 import { Link } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default function LoginComponent() {
   const [credentials, setCredentials] = useState({
