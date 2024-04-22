@@ -63,6 +63,24 @@ const getProjectById = async (request, response) => {
   }
 };
 
+const getProjectMembers = async (request, response) => {
+  try {
+    const projectMembers =
+      await prisma.$queryRaw`select u.id, u.name, u.role from proiect_mds.user u
+    join proiect_mds.projects_users pu on pu.userId = u.id
+      where pu.projectID = ${request.params.id}`;
+    response.status(StatusCodes.OK).json(projectMembers);
+  } catch (error) {
+    if (error.code === "P2025") {
+      response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(`Project with given ID doesn't exist!`);
+    } else {
+      response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+    }
+  }
+};
+
 const deleteProject = async (request, response) => {
   try {
     const deletedProject = await prisma.project.delete({
@@ -88,5 +106,6 @@ module.exports = {
   createProject,
   getAllProjects,
   getProjectById,
+  getProjectMembers,
   deleteProject,
 };
