@@ -24,4 +24,66 @@ const createTicket = async (request, response) => {
   }
 };
 
-module.exports = { createTicket };
+const getAllTickets = async (request, response) => {
+  try {
+    const queryKeys = Object.keys(request.query);
+    const createdQuery = {};
+
+    if (queryKeys.length !== 0) {
+      {
+        queryKeys.forEach((key) => {
+          if (
+            ![
+              "priority",
+              "createdByUserId",
+              "assignedToUserId",
+              "status",
+            ].includes(key)
+          ) {
+            throw new Error("Invalid query parameter!");
+          } else {
+            if (key === "createdByUserId" || key === "assignedToUserId") {
+              createdQuery[key] = parseInt(request.query[key]);
+            } else {
+              createdQuery[key] = request.query[key];
+            }
+          }
+        });
+      }
+    }
+    const tickets = await prisma.ticket.findMany({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        priority: true,
+        createdByUserId: true,
+        createdBy: {
+          select: {
+            name: true
+          }
+        },
+        projectId: true,
+        project: {
+          select: {
+            title: true,
+          },
+        },
+        assignedToUserId: true,
+        assignedTo: {
+          select: {
+            name: true,
+          },
+        },
+        status: true,
+      },
+      where: {
+        ...createdQuery,
+      },
+    });
+    response.status(StatusCodes.OK).json(tickets);
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+  }
+};
+module.exports = { createTicket, getAllTickets };

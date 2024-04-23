@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { RiLogoutBoxRFill, RiAdminFill } from "react-icons/ri";
 import { FaTicketSimple } from "react-icons/fa6";
 import { IoTicketSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <HStack
@@ -15,9 +16,15 @@ export default function Header() {
     >
       <Box>Logo</Box>
       <HStack alignContent={"center"}>
-        <Button leftIcon={<IoTicketSharp />} colorScheme="teal" variant="solid">
-          Tickets
-        </Button>
+        <Link to="/tickets">
+          <Button
+            leftIcon={<IoTicketSharp />}
+            colorScheme="teal"
+            variant="solid"
+          >
+            Tickets
+          </Button>
+        </Link>
         <Button
           leftIcon={<FaTicketSimple />}
           colorScheme="teal"
