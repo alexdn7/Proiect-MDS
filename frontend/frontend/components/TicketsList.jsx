@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getAllTickets } from "../services/TicketService";
+import { Link } from "react-router-dom";
 
 export default function TicketsList() {
   const [tickets, setTickets] = useState([]);
@@ -44,7 +45,11 @@ export default function TicketsList() {
           {tickets.map((ticket) => (
             <GridItem padding="2" backgroundColor="teal" key={ticket.id}>
               <HStack justifyContent={"center"}>
-                <Heading overflowX="auto scroll">{ticket.title}</Heading>
+                <Heading overflowX="auto scroll">
+                  {ticket.title.length >= 25
+                    ? ticket.title.substring(0, 25) + "..."
+                    : ticket.title}
+                </Heading>
                 <Badge
                   alignSelf={"center"}
                   backgroundColor={
@@ -59,15 +64,25 @@ export default function TicketsList() {
                 </Badge>
               </HStack>
               <Box overflowX="auto scroll">
-                <Text>{ticket.description}</Text>
+                <Text>
+                  {ticket.description.length > 100
+                    ? ticket.description.substring(0, 100) + "..."
+                    : ticket.description}
+                </Text>
               </Box>
-              <Text>Created by: {ticket.createdBy.name} </Text>
               <Text>Project: {ticket.project.title} </Text>
-              <Text>Assigned to: {ticket.assignedTo.name} </Text>
+              <HStack justifyContent="center">
+                <Text>Created by: <Link to="/users/">{ticket.createdBy.name}</Link> </Text>
+                <Text>Assigned to: <Link to="/users/">{ticket.assignedTo.name}</Link> </Text>
+              </HStack>
               <Text>Status: {ticket.status} </Text>
               <HStack justifyContent="center" marginTop="2">
-                <Button size="sm" backgroundColor="orange">View details</Button>
-                <Button size="sm" backgroundColor="red">Delete</Button>
+                <Button size="sm" backgroundColor="#FCCF00">
+                  View details
+                </Button>
+                <Button size="sm" backgroundColor="red">
+                  Delete
+                </Button>
               </HStack>
             </GridItem>
           ))}
