@@ -46,7 +46,7 @@ export default function UsersList() {
   return (
     <Grid templateColumns={"1fr 4fr"} height="90vh" margin="0px" padding="0">
       <GridItem bg={"white"} margin={"0px"}>
-        <Center h="90vh">
+        <Center h="full" margin="0">
           <VStack>
             <span>Filter by</span>
             <HStack>

@@ -18,6 +18,7 @@ export default function GridContent() {
       width="100%"
       margin="0"
       fontWeight="bold"
+      bg="#003C43"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
         <Header isLogged={true} />

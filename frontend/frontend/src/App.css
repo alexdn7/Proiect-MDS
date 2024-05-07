@@ -1,8 +1,5 @@
 #root {
-  width: 100%;
-  height: 100vh;
   margin: 0;
-  padding: 0;
   text-align: center;
-  background-color: rgb(16, 75, 75);
+  width: 100vw;
 }

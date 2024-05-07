@@ -64,160 +64,159 @@ export default function TicketsList({ filteringCriteria }) {
     });
   }
   return (
-    <>
-      <Flex justifyContent="center" width="100%">
-        <VStack
-          border="1px solid black"
-          margin="20px 0px 20px 20px"
-          width="20%"
-          padding="10px"
-          backgroundColor="teal"
-          height="auto"
+    <Flex justifyContent="center" width="100%" heigth="full">
+      <VStack
+        border="1px solid black"
+        margin="0px 0px 0px 0px"
+        width="20%"
+        padding="10px"
+        backgroundColor="teal"
+        height="100%"
+      >
+        <Heading>Filter results</Heading>
+        <Select
+          backgroundColor="white"
+          onClick={() => getAndSetUsers()}
+          onChange={(e) => handleChange(e, "createdByUserId")}
+          defaultValue=""
         >
-          <Heading>Filter results</Heading>
-          <Select
-            backgroundColor="white"
-            onClick={() => getAndSetUsers()}
-            onChange={(e) => handleChange(e, "createdByUserId")}
-            defaultValue=""
-          >
-            <option disabled value="" key="">
-              Created by
-            </option>
-            {users.length === 0 ? (
-              <option disabled>There are no users, try again!</option>
-            ) : null}
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </Select>
-          <Select
-            backgroundColor="white"
-            onChange={(e) => handleChange(e, "priority")}
-            defaultValue=""
-          >
-            <option disabled value="">
-              Priority
-            </option>
-            <option key="LOW" value="LOW">
-              LOW
-            </option>
-            <option key="MEDIUM" value="MEDIUM">
-              MEDIUM
-            </option>
-            <option key="HIGH" value="HIGH">
-              HIGH
-            </option>
-          </Select>
-          <Select
-            backgroundColor="white"
-            defaultValue=""
-            onClick={() => getAndSetUsers()}
-            onChange={(e) => handleChange(e, "assignedToUserId")}
-          >
-            <option disabled value="" key="">
-              Assigned to
-            </option>
-            {users.length === 0 ? (
-              <option disabled>There are no users, try again!</option>
-            ) : null}
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </Select>
-          <Select
-            backgroundColor="white"
-            defaultValue=""
-            onChange={(e) => handleChange(e, "status")}
-          >
-            <option disabled value="">
-              Status
-            </option>
-            <option key="CREATED" value="CREATED">
-              Created
-            </option>
-            <option key="IN_PROGRESS" value="IN_PROGRESS">
-              IN_PROGRESS
-            </option>
-            <option key="SOLVED" value="SOLVED">
-              SOLVED
-            </option>
-          </Select>
-          <Button onClick={() => (setFilteringOptions({}), getAndSetTickets())}>
-            Remove filters
-          </Button>
-        </VStack>
-        <Grid
-          templateColumns="33% 33% 33%"
-          padding="20px"
-          gap="10px"
-          width="100%"
-        >
-          {tickets.length === 0 ? (
-            <Heading alignSelf="center">
-              There are no tickets, try again or remove your filter!
-            </Heading>
+          <option disabled value="" key="">
+            Created by
+          </option>
+          {users.length === 0 ? (
+            <option disabled>There are no users, try again!</option>
           ) : null}
-          {tickets.map((ticket) => (
-            <GridItem padding="2" backgroundColor="teal" key={ticket.id}>
-              <HStack justifyContent={"center"}>
-                <Heading overflowX="auto scroll">
-                  {ticket.title.length >= 25
-                    ? ticket.title.substring(0, 25) + "..."
-                    : ticket.title}
-                </Heading>
-                <Badge
-                  alignSelf={"center"}
-                  backgroundColor={
-                    ticket.priority === "HIGH"
-                      ? "red"
-                      : ticket.priority === "MEDIUM"
+          {users.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
+        </Select>
+        <Select
+          backgroundColor="white"
+          onChange={(e) => handleChange(e, "priority")}
+          defaultValue=""
+        >
+          <option disabled value="">
+            Priority
+          </option>
+          <option key="LOW" value="LOW">
+            LOW
+          </option>
+          <option key="MEDIUM" value="MEDIUM">
+            MEDIUM
+          </option>
+          <option key="HIGH" value="HIGH">
+            HIGH
+          </option>
+        </Select>
+        <Select
+          backgroundColor="white"
+          defaultValue=""
+          onClick={() => getAndSetUsers()}
+          onChange={(e) => handleChange(e, "assignedToUserId")}
+        >
+          <option disabled value="" key="">
+            Assigned to
+          </option>
+          {users.length === 0 ? (
+            <option disabled>There are no users, try again!</option>
+          ) : null}
+          {users.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
+        </Select>
+        <Select
+          backgroundColor="white"
+          defaultValue=""
+          onChange={(e) => handleChange(e, "status")}
+        >
+          <option disabled value="">
+            Status
+          </option>
+          <option key="CREATED" value="CREATED">
+            Created
+          </option>
+          <option key="IN_PROGRESS" value="IN_PROGRESS">
+            IN_PROGRESS
+          </option>
+          <option key="SOLVED" value="SOLVED">
+            SOLVED
+          </option>
+        </Select>
+        <Button onClick={() => (setFilteringOptions({}), getAndSetTickets())}>
+          Remove filters
+        </Button>
+      </VStack>
+      <Grid
+        templateColumns="33% 33% 33%"
+        padding="20px"
+        gap="10px"
+        width="100%"
+      >
+        {tickets.length === 0 ? (
+          <Heading alignSelf="center">
+            There are no tickets, try again or remove your filter!
+          </Heading>
+        ) : null}
+        {tickets.map((ticket) => (
+          <GridItem padding="2" backgroundColor="teal" key={ticket.id}>
+            <HStack justifyContent={"center"}>
+              <Heading overflowX="auto scroll">
+                {ticket.title.length >= 25
+                  ? ticket.title.substring(0, 25) + "..."
+                  : ticket.title}
+              </Heading>
+              <Badge
+                alignSelf={"center"}
+                backgroundColor={
+                  ticket.priority === "HIGH"
+                    ? "red"
+                    : ticket.priority === "MEDIUM"
                       ? "orange"
                       : "green"
-                  }
-                >
-                  {ticket.priority}
-                </Badge>
-              </HStack>
-              <Box overflowX="auto scroll">
-                <Text>
-                  {ticket.description.length > 100
-                    ? ticket.description.substring(0, 100) + "..."
-                    : ticket.description}
-                </Text>
-              </Box>
-              <Text>Project: {ticket.project.title} </Text>
-              <HStack justifyContent="center">
-                <Text>
-                  Created by:{" "}
-                  <Link to={`/users/${ticket.createdByUserId}`}>
-                    {ticket.createdBy.name}
-                  </Link>{" "}
-                </Text>
-                <Text>
-                  | Assigned to:{" "}
-                  <Link to={`/users/${ticket.assignedToUserId}`}>
-                    {ticket.assignedTo.name}
-                  </Link>{" "}
-                </Text>
-              </HStack>
-              <Text>Status: {ticket.status} </Text>
-              <HStack justifyContent="center" marginTop="2">
-                <Button size="sm" backgroundColor="whitesmoke">
-                  View details
-                </Button>
-                <Button size="sm" backgroundColor="red">
-                  Delete
-                </Button>
-              </HStack>
-            </GridItem>
-          ))}
-        </Grid>
-      </Flex>
-    </>
+                }
+              >
+                {ticket.priority}
+              </Badge>
+            </HStack>
+            <Box overflowX="auto scroll">
+              <Text>
+                {ticket.description.length > 100
+                  ? ticket.description.substring(0, 100) + "..."
+                  : ticket.description}
+              </Text>
+            </Box>
+            <Text>Project: {ticket.project.title} </Text>
+            <HStack justifyContent="center">
+              <Text>
+                Created by:{" "}
+                <Link to={`/users/${ticket.createdByUserId}`}>
+                  {ticket.createdBy.name}
+                </Link>{" "}
+              </Text>
+              <Text>
+                | Assigned to:{" "}
+                <Link to={`/users/${ticket.assignedToUserId}`}>
+                  {ticket.assignedTo.name}
+                </Link>{" "}
+              </Text>
+            </HStack>
+            <Text>Status: {ticket.status} </Text>
+            <HStack justifyContent="center" marginTop="2">
+              <Button size="sm" backgroundColor="whitesmoke">
+                View details
+              </Button>
+              <Button size="sm" backgroundColor="red">
+                Delete
+              </Button>
+            </HStack>
+          </GridItem>
+        ))}
+      </Grid>
+    </Flex>
+
   );
 }

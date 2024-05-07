@@ -13,6 +13,7 @@ export default function Header() {
       alignItems="center"
       border="1px solid black"
       backgroundColor="teal"
+      height="full"
     >
       <Box>Logo</Box>
       <HStack alignContent={"center"}>

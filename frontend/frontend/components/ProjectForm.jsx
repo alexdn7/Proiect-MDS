@@ -71,6 +71,8 @@ export default function ProjectForm() {
         borderRadius="5px"
         padding="2%"
         backgroundColor="white"
+        boxShadow="0px 0px 10px 10px #135D66"
+        zIndex="1"
       >
         <Heading>Add a new project</Heading>
         <form style={{ width: 100 + "%", padding: 10 }} onSubmit={handleSubmit}>

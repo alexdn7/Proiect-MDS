@@ -75,8 +75,8 @@ export default function TicketForm() {
     <Flex
       justifyContent="center"
       width="100%"
-      height={"100%"}
-      alignItems={"center"}
+      height="100%"
+      alignItems="center"
     >
       <VStack
         width="30%"
@@ -84,6 +84,8 @@ export default function TicketForm() {
         borderRadius="5px"
         padding="2%"
         backgroundColor="white"
+        boxShadow="0px 0px 10px 10px #135D66"
+        zIndex="1"
       >
         <Heading>Add a new ticket</Heading>
         <form style={{ width: 100 + "%", padding: 10 }} onSubmit={handleSubmit}>
@@ -182,7 +184,7 @@ export default function TicketForm() {
                       There are no members for this project, try again!
                     </option>
                   ) : null}
-                  
+
                   {projectMembers.map((member) => (
                     <option key={member.id} value={member.id}>
                       {member.name} - {member.role}
