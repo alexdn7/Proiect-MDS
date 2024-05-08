@@ -1,24 +1,33 @@
 import "./App.css";
 import Cookies from "js-cookie";
-import HomePage from "../components/HomePage";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
-import UsersList from "../components/UsersList";
 import { getUserInfoFromCookiesToken } from "../utils/TokenUtil";
-import Header from "../components/Header";
 import GridContent from "../components/GridContent";
+import HomePage from "../components/HomePage";
 
 function App() {
-  // const token = Cookies.get("token");
-  // const userInfo = getUserInfoFromCookiesToken();
+  const token = Cookies.get("token");
+  let userDetails = null;
+
+  if (token) {
+    userDetails = getUserInfoFromCookiesToken(token);
+    console.log(userDetails);
+  }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginComponent />} />
-        <Route path="/register" element={<RegisterComponent />} />
-        <Route path="*" element={<GridContent />} />
+        {token ? (
+          <Route path="*" element={<GridContent userDetails={userDetails} />} />
+        ) : (
+          <>
+            <Route path="/home" element={<HomePage isLogged="false" />} />
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/register" element={<RegisterComponent />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );

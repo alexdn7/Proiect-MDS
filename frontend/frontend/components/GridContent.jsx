@@ -8,7 +8,9 @@ import ProjectsList from "./ProjectsList";
 import TicketForm from "./TicketForm";
 import TicketsList from "./TicketsList";
 import TicketComponent from "./TicketComponent";
-export default function GridContent() {
+import HomePage from "./HomePage";
+export default function GridContent({ userDetails }) {
+  console.log(userDetails);
   return (
     <Grid
       templateAreas={`"header"
@@ -22,16 +24,26 @@ export default function GridContent() {
       bg="#003C43"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
-        <Header isLogged={true} />
+        <Header isLogged={userDetails ? "true" : "false"} />
       </GridItem>
       <GridItem area={"main"} overflow="auto">
         <Routes>
+          <Route
+            path="/home"
+            element={<HomePage isLogged={true} userDetails={userDetails} />}
+          />
           <Route path="/users" element={<UsersList />} />
           <Route path="/projects/add" element={<ProjectForm />} />
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/tickets/add" element={<TicketForm />} />
-          <Route path="/tickets" element={<TicketsList />} />
-          <Route path="/tickets/:id" element={<TicketComponent />} />
+          <Route
+            path="/tickets"
+            element={<TicketsList userDetails={userDetails} />}
+          />
+          <Route
+            path="/tickets/:id"
+            element={<TicketComponent userDetails={userDetails} />}
+          />
         </Routes>
       </GridItem>
       <GridItem area={"footer"} backgroundColor={"teal"}>

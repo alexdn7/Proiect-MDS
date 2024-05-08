@@ -35,14 +35,17 @@ export default function RegisterComponent() {
       if (!token) {
         throw new Error("Token not found");
       }
-      Cookies.set("token", token);
+      Cookies.set("token", token, {
+        expires: 45 / (24 * 60),
+        secure: true,
+      });
     } catch (error) {
       console.error(error);
     }
   }
 
   return (
-    <Flex h="90vh" justifyContent="center">
+    <Flex justifyContent="center" bg="teal" height="100vh">
       <Center>
         <Card p="6" borderRadius="10px">
           <CardBody>
