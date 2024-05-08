@@ -89,7 +89,7 @@ export default function TicketComponent() {
         paddingY="10px"
       >
         {updateState ? (
-          <FormControl justifyContent={"center"} width="80%">
+          <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
             <InputGroup width="100%">
               <Input
@@ -164,7 +164,7 @@ export default function TicketComponent() {
 
         <Divider bg="black" />
         {updateState ? (
-          <FormControl justifyContent="center" width="80%">
+          <FormControl justifyContent="center" width="90%">
             <FormLabel>Description</FormLabel>
             <InputGroup width="100%">
               <Input
@@ -188,23 +188,26 @@ export default function TicketComponent() {
         <Divider bg="black" />
         <HStack width="90%">
           {updateState ? (
-            <InputGroup>
-              <Select
-                value={details.priority}
-                onChange={(e) => {
-                  setDetails({
-                    ...details,
-                    priority: e.target.value,
-                  });
-                }}
-                width="50%"
-              >
-                <option disabled>Select priority</option>
-                <option>LOW</option>
-                <option>MEDIUM</option>
-                <option>HIGH</option>
-              </Select>
-            </InputGroup>
+            <FormControl>
+              <FormLabel>Priority</FormLabel>
+              <InputGroup>
+                <Select
+                  value={details.priority}
+                  onChange={(e) => {
+                    setDetails({
+                      ...details,
+                      priority: e.target.value,
+                    });
+                  }}
+                  width="50%"
+                >
+                  <option disabled>Select priority</option>
+                  <option>LOW</option>
+                  <option>MEDIUM</option>
+                  <option>HIGH</option>
+                </Select>
+              </InputGroup>
+            </FormControl>
           ) : (
             <VStack>
               <Text>Priority</Text>
@@ -222,20 +225,42 @@ export default function TicketComponent() {
             </VStack>
           )}
           <Spacer />
-          <VStack>
-            <Text>Status:</Text>
-            <Text
-              color={
-                details.status === "CREATED"
-                  ? "yellow"
-                  : details.priority === "IN_PROGRESS"
-                  ? "orange"
-                  : "red"
-              }
-            >
-              {details.status}
-            </Text>
-          </VStack>
+          {updateState ? (
+            <FormControl>
+              <FormLabel>Status</FormLabel>
+              <InputGroup>
+                <Select
+                  value={details.status}
+                  onChange={(e) => {
+                    setDetails({
+                      ...details,
+                      status: e.target.value,
+                    });
+                  }}
+                >
+                  <option disabled>Select status</option>
+                  <option>CREATED</option>
+                  <option>IN_PROGRESS</option>
+                  <option>SOLVED</option>
+                </Select>
+              </InputGroup>
+            </FormControl>
+          ) : (
+            <VStack>
+              <Text>Status:</Text>
+              <Text
+                color={
+                  details.status === "CREATED"
+                    ? "yellow"
+                    : details.status === "IN_PROGRESS"
+                    ? "orange"
+                    : "red"
+                }
+              >
+                {details.status}
+              </Text>
+            </VStack>
+          )}
         </HStack>
         <HStack>
           {updateState ? (
