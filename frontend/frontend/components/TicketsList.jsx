@@ -165,8 +165,8 @@ export default function TicketsList({ filteringCriteria }) {
           <GridItem padding="2" backgroundColor="teal" key={ticket.id}>
             <HStack justifyContent={"center"}>
               <Heading overflowX="auto scroll">
-                {ticket.title.length >= 25
-                  ? ticket.title.substring(0, 25) + "..."
+                {ticket.title.length >= 15
+                  ? ticket.title.substring(0, 15) + "..."
                   : ticket.title}
               </Heading>
               <Badge
@@ -175,8 +175,8 @@ export default function TicketsList({ filteringCriteria }) {
                   ticket.priority === "HIGH"
                     ? "red"
                     : ticket.priority === "MEDIUM"
-                      ? "orange"
-                      : "green"
+                    ? "orange"
+                    : "green"
                 }
               >
                 {ticket.priority}
@@ -206,9 +206,11 @@ export default function TicketsList({ filteringCriteria }) {
             </HStack>
             <Text>Status: {ticket.status} </Text>
             <HStack justifyContent="center" marginTop="2">
-              <Button size="sm" backgroundColor="whitesmoke">
-                View details
-              </Button>
+              <Link to={`/tickets/${ticket.id}`}>
+                <Button size="sm" backgroundColor="whitesmoke">
+                  View details
+                </Button>
+              </Link>
               <Button size="sm" backgroundColor="red">
                 Delete
               </Button>
@@ -217,6 +219,5 @@ export default function TicketsList({ filteringCriteria }) {
         ))}
       </Grid>
     </Flex>
-
   );
 }

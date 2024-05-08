@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import ProjectsList from "./ProjectsList";
 import TicketForm from "./TicketForm";
 import TicketsList from "./TicketsList";
+import TicketComponent from "./TicketComponent";
 export default function GridContent() {
   return (
     <Grid
@@ -30,6 +31,7 @@ export default function GridContent() {
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/tickets/add" element={<TicketForm />} />
           <Route path="/tickets" element={<TicketsList />} />
+          <Route path="/tickets/:id" element={<TicketComponent />} />
         </Routes>
       </GridItem>
       <GridItem area={"footer"} backgroundColor={"teal"}>
