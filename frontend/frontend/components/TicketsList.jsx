@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { getAllTickets } from "../services/TicketService";
+import { deleteTicket, getAllTickets } from "../services/TicketService";
 import { Link } from "react-router-dom";
 import { getAllUsers } from "../services/UserService";
 
@@ -63,6 +63,16 @@ export default function TicketsList({ filteringCriteria }) {
       return filtering;
     });
   }
+
+  async function handleDeleteTicket(ticketId) {
+    try {
+      await deleteTicket(ticketId);
+      getAndSetTickets();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Flex justifyContent="center" width="100%" heigth="full">
       <VStack
@@ -211,7 +221,11 @@ export default function TicketsList({ filteringCriteria }) {
                   View details
                 </Button>
               </Link>
-              <Button size="sm" backgroundColor="red">
+              <Button
+                size="sm"
+                backgroundColor="red"
+                onClick={() => handleDeleteTicket(ticket.id)}
+              >
                 Delete
               </Button>
             </HStack>

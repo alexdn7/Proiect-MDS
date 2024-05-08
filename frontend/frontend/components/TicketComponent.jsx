@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { getTicketById, updateTicket } from "../services/TicketService";
-import { useParams, Link, Form } from "react-router-dom";
+import {
+  deleteTicket,
+  getTicketById,
+  updateTicket,
+} from "../services/TicketService";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Flex,
   HStack,
@@ -28,6 +32,7 @@ export default function TicketComponent() {
   const [updateState, setUpdateState] = useState(false);
   const { id } = useParams();
   const [projectMembers, setProjectMembers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAndSetDetails();
@@ -77,6 +82,16 @@ export default function TicketComponent() {
     }
     return true;
   }
+
+  async function handleDeleteTicket(ticketId) {
+    try {
+      await deleteTicket(ticketId);
+      navigate("/tickets");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Flex justifyContent="center">
       <VStack
@@ -302,7 +317,12 @@ export default function TicketComponent() {
               </Button>
             </>
           )}
-          <Button rightIcon={<FaTrashCan />}>Delete</Button>
+          <Button
+            rightIcon={<FaTrashCan />}
+            onClick={() => handleDeleteTicket(parseInt(id))}
+          >
+            Delete
+          </Button>
         </HStack>
       </VStack>
     </Flex>

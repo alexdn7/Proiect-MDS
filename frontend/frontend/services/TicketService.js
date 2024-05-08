@@ -11,4 +11,8 @@ export const getAllTickets = (queryParams) =>
 
 export const getTicketById = (ticketId) => axios.get(BASE_URL + `/${ticketId}`);
 
-export const updateTicket = (ticketId, ticketDto) => axios.patch(BASE_URL + `/${ticketId}`, ticketDto);
+export const updateTicket = (ticketId, ticketDto) =>
+  axios.patch(BASE_URL + `/${ticketId}`, ticketDto);
+
+export const deleteTicket = (ticketId) =>
+  axios.delete(BASE_URL + `/${ticketId}`);
