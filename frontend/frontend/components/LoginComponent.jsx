@@ -39,7 +39,10 @@ export default function LoginComponent() {
         throw new Error("Token not found!");
       }
 
-      Cookies.set("token", token);
+      Cookies.set("token", token, {
+        expires: 45 / (24 * 60),
+        secure: true,
+      });
     } catch (error) {
       setError(true);
       console.error(error);
@@ -51,9 +54,10 @@ export default function LoginComponent() {
   }
 
   return (
-    <Flex h="90vh" justifyContent="center">
+    <Flex height="100vh" justifyContent="center" bg="teal">
       <Center>
         <Card p="6" borderRadius="10px">
+          <Heading>Login</Heading>
           <CardBody>
             <VStack>
               <form onSubmit={handleSubmit}>

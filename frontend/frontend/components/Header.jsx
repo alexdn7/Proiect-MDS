@@ -3,15 +3,22 @@ import { CgProfile } from "react-icons/cg";
 import { RiLogoutBoxRFill, RiAdminFill } from "react-icons/ri";
 import { FaTicketSimple } from "react-icons/fa6";
 import { IoTicketSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 export default function Header() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    Cookies.remove("token");
+    navigate("/home");
+  }
+
   return (
     <HStack
       justifyContent="space-between"
       paddingX="2%"
       padding="10px"
       alignItems="center"
-      border="1px solid black"
       backgroundColor="teal"
       height="full"
     >
@@ -43,6 +50,7 @@ export default function Header() {
           leftIcon={<RiLogoutBoxRFill />}
           colorScheme="teal"
           variant="solid"
+          onClick={() => handleLogout()}
         >
           Sign out
         </Button>

@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Status } = require("@prisma/client");
 const { request, response } = require("express");
 const { StatusCodes, CREATED } = require("http-status-codes");
 const prisma = new PrismaClient();
@@ -17,7 +17,7 @@ const createTicket = async (request, response) => {
         projectId: projectId,
         assignedToUserId: assignedToUserId,
         status: "CREATED",
-        editedByUserId: 1
+        editedByUserId: 1,
       },
     });
     response.status(StatusCodes.CREATED).json(createdTicket);
@@ -63,8 +63,8 @@ const getAllTickets = async (request, response) => {
         createdByUserId: true,
         createdBy: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         projectId: true,
         project: {
@@ -82,9 +82,9 @@ const getAllTickets = async (request, response) => {
         lastModifiedOn: true,
         editedBy: {
           select: {
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
       where: {
         ...createdQuery,
@@ -110,8 +110,8 @@ const getTicketById = async (request, response) => {
         createdByUserId: true,
         createdBy: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         projectId: true,
         project: {
@@ -129,28 +129,35 @@ const getTicketById = async (request, response) => {
         lastModifiedOn: true,
         editedBy: {
           select: {
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
       where: {
-        id: parseInt(id)
+        id: parseInt(id),
       },
     });
     response.status(StatusCodes.OK).json(ticket);
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
   }
-}
+};
 
 const updateTicket = async (request, response) => {
   try {
     const { id } = request.params;
-    const { title, description, priority, assignedToUserId, status, editedByUserId } = request.body;
+    const {
+      title,
+      description,
+      priority,
+      assignedToUserId,
+      status,
+      editedByUserId,
+    } = request.body;
 
     const updatedTicket = await prisma.ticket.update({
       where: {
-        id: parseInt(id)
+        id: parseInt(id),
       },
       data: {
         title: title,
@@ -159,13 +166,36 @@ const updateTicket = async (request, response) => {
         assignedToUserId: assignedToUserId,
         status: status,
         lastModifiedOn: new Date(),
-        editedByUserId: editedByUserId
-      }
-    })
+        editedByUserId: editedByUserId,
+      },
+    });
     response.status(StatusCodes.OK).json(updatedTicket);
-
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
   }
-}
-module.exports = { createTicket, getAllTickets, getTicketById, updateTicket };
+};
+
+const deleteTicket = async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const deletedTicket = await prisma.ticket.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    response
+      .status(StatusCodes.OK)
+      .json(`Ticket with ID ${deletedTicket.id} was succesfully deleted!`);
+  } catch (error) {
+    if (error.code === "P2025") {
+      response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(`Ticket with given ID doesn't exist!`);
+    } else {
+      response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+    }
+  }
+};
+module.exports = { createTicket, getAllTickets, getTicketById, updateTicket, deleteTicket };

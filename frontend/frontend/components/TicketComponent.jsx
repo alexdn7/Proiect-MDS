@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { getTicketById, updateTicket } from "../services/TicketService";
-import { useParams, Link, Form } from "react-router-dom";
+import {
+  deleteTicket,
+  getTicketById,
+  updateTicket,
+} from "../services/TicketService";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Flex,
   HStack,
@@ -23,11 +27,12 @@ import { MdCancel, MdEdit, MdSave } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
 import { getProjectMembers } from "../services/ProjectService";
 
-export default function TicketComponent() {
+export default function TicketComponent({ userDetails }) {
   const [details, setDetails] = useState(null);
   const [updateState, setUpdateState] = useState(false);
   const { id } = useParams();
   const [projectMembers, setProjectMembers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAndSetDetails();
@@ -77,6 +82,16 @@ export default function TicketComponent() {
     }
     return true;
   }
+
+  async function handleDeleteTicket(ticketId) {
+    try {
+      await deleteTicket(ticketId);
+      navigate("/tickets");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Flex justifyContent="center">
       <VStack
@@ -88,7 +103,10 @@ export default function TicketComponent() {
         marginTop="30px"
         paddingY="10px"
       >
-        {updateState ? (
+        {updateState &&
+        (userDetails.role === "ADMIN" ||
+          (userDetails.role === "TESTER" &&
+            details.createdByUserId === userDetails.userId)) ? (
           <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
             <InputGroup width="100%">
@@ -119,7 +137,10 @@ export default function TicketComponent() {
             </Text>
           </Link>
 
-          {updateState ? (
+          {updateState &&
+          (userDetails.role === "ADMIN" ||
+            (userDetails.role === "TESTER" &&
+              details.createdByUserId === userDetails.userId)) ? (
             <HStack width="100%">
               <Text>Assign to </Text>
               <Select
@@ -163,7 +184,10 @@ export default function TicketComponent() {
         </VStack>
 
         <Divider bg="black" />
-        {updateState ? (
+        {updateState &&
+        (userDetails.role === "ADMIN" ||
+          (userDetails.role === "TESTER" &&
+            details.createdByUserId === userDetails.userId)) ? (
           <FormControl justifyContent="center" width="90%">
             <FormLabel>Description</FormLabel>
             <InputGroup width="100%">
@@ -187,7 +211,10 @@ export default function TicketComponent() {
         )}
         <Divider bg="black" />
         <HStack width="90%">
-          {updateState ? (
+          {updateState &&
+          (userDetails.role === "ADMIN" ||
+            (userDetails.role === "TESTER" &&
+              details.createdByUserId === userDetails.userId)) ? (
             <FormControl>
               <FormLabel>Priority</FormLabel>
               <InputGroup>
@@ -225,8 +252,13 @@ export default function TicketComponent() {
             </VStack>
           )}
           <Spacer />
-          {updateState ? (
-            <FormControl>
+          {updateState &&
+          (userDetails.role === "ADMIN" ||
+            (userDetails.role === "TESTER" &&
+              details.createdByUserId === userDetails.userId) ||
+            (userDetails.role === "DEVELOPER" &&
+              userDetails.userId === details.assignedToUserId)) ? (
+            <FormControl width="50%">
               <FormLabel>Status</FormLabel>
               <InputGroup>
                 <Select
@@ -294,15 +326,30 @@ export default function TicketComponent() {
               <Link to="/tickets">
                 <Button leftIcon={<IoMdArrowRoundBack />}>Go back</Button>
               </Link>
-              <Button
-                onClick={() => setUpdateState(true)}
-                rightIcon={<MdEdit />}
-              >
-                Edit
-              </Button>
+              {userDetails.role === "ADMIN" ||
+              (userDetails.role === "TESTER" &&
+                details.createdByUserId === userDetails.userId) ||
+              (userDetails.role === "DEVELOPER" &&
+                details.assignedToUserId === userDetails.userId) ? (
+                <Button
+                  onClick={() => setUpdateState(true)}
+                  rightIcon={<MdEdit />}
+                >
+                  Edit
+                </Button>
+              ) : null}
             </>
           )}
-          <Button rightIcon={<FaTrashCan />}>Delete</Button>
+          {userDetails.role === "ADMIN" ||
+          (userDetails.role === "TESTER" &&
+            details.createdByUserId === userDetails.userId) ? (
+            <Button
+              rightIcon={<FaTrashCan />}
+              onClick={() => handleDeleteTicket(parseInt(id))}
+            >
+              Delete
+            </Button>
+          ) : null}
         </HStack>
       </VStack>
     </Flex>
