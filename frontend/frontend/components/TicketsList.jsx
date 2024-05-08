@@ -74,13 +74,17 @@ export default function TicketsList({ userDetails }) {
   }
 
   return (
-    <Flex justifyContent="center" width="100%" height="100%">
+    <Flex justifyContent="center" width="100%" height="auto">
       <VStack
         width="20%"
         padding="10px"
-        backgroundColor="teal"
+        backgroundColor="#9DB2BF"
+        marginY="10px"
+        marginLeft="10px"
+        height="fill"
+        justifyContent="center"
       >
-        <VStack width="100%" justifyContent="center" height="100vh">
+        <VStack width="100%" justifyContent="center" heigth="100%">
           <Heading>Filter results</Heading>
           <Select
             backgroundColor="white"
@@ -165,7 +169,7 @@ export default function TicketsList({ userDetails }) {
       </VStack>
       <Grid
         templateColumns="33% 33% 33%"
-        padding="20px"
+        padding="10px"
         gap="10px"
         width="100%"
       >
@@ -176,10 +180,9 @@ export default function TicketsList({ userDetails }) {
         ) : null}
         {tickets.map((ticket) => (
           <GridItem
-            backgroundColor="teal"
+            backgroundColor="#9DB2BF"
             key={ticket.id}
-            height="auto full"
-            maxHeight="40%"
+            height="auto full" 
             alignContent="space-evenly"
           >
             <HStack justifyContent="center">

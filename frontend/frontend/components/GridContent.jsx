@@ -16,12 +16,12 @@ export default function GridContent({ userDetails }) {
       templateAreas={`"header"
                   "main"
                   "footer"`}
-      gridTemplateRows={"10% 85% 5%"}
+      gridTemplateRows={"7% 88% 5%"}
       height="100vh"
       width="100%"
       margin="0"
       fontWeight="bold"
-      bg="#003C43"
+      bg="#526D82"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
         <Header isLogged={userDetails ? "true" : "false"} />
@@ -46,7 +46,7 @@ export default function GridContent({ userDetails }) {
           />
         </Routes>
       </GridItem>
-      <GridItem area={"footer"} backgroundColor={"teal"}>
+      <GridItem area={"footer"}>
         <Footer />
       </GridItem>
     </Grid>

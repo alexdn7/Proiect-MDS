@@ -4,7 +4,9 @@ export default function Footer() {
   return (
     <Flex
       justifyContent="center"
-      heigth="100%"
+      height="100%"
+      backgroundColor="#27374D"
+      alignItems="center"
     >
       <Text> Project created by AlexDN7 - 2024</Text>
     </Flex>
