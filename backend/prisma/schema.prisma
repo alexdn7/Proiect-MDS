@@ -17,6 +17,7 @@ model User {
   projects        Projects_Users[]
   createdTickets  Ticket[]         @relation("CreatedBy")
   assignedTickets Ticket[]         @relation("AssignedTo")
+  editedTickets   Ticket[]         @relation("EditedBy")
 }
 
 enum Role {
@@ -51,6 +52,7 @@ model Ticket {
   title       String
   description String
   priority    Priority
+  createdOn   DateTime
 
   createdBy       User @relation("CreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
   createdByUserId Int
@@ -61,7 +63,11 @@ model Ticket {
   assignedTo       User @relation("AssignedTo", fields: [assignedToUserId], references: [id], onDelete: Cascade)
   assignedToUserId Int
 
-  status Status
+  status         Status
+  lastModifiedOn DateTime?
+
+  editedBy       User @relation("EditedBy", fields: [editedByUserId], references: [id], onDelete: Cascade)
+  editedByUserId Int
 }
 
 enum Priority {
