@@ -20,6 +20,7 @@ import {
   InputRightAddon,
   FormControl,
   FormLabel,
+  Box,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -145,7 +146,7 @@ export default function TicketComponent({ userDetails }) {
               details.createdByUserId === userDetails.userId)) ? (
             <HStack width="100%">
               <Text>Assign to </Text>
-              <Select
+              <select
                 onClick={() => getAndSetProjectInfo()}
                 value={details.assignedToUserId}
                 onChange={(e) => {
@@ -154,8 +155,6 @@ export default function TicketComponent({ userDetails }) {
                     assignedToUserId: e.target.value,
                   });
                 }}
-                width="60%"
-                alignSelf="center"
               >
                 <option disabled value="">
                   Choose developer
@@ -166,7 +165,7 @@ export default function TicketComponent({ userDetails }) {
                     {member.name} - {member.role}
                   </option>
                 ))}
-              </Select>
+              </select>
             </HStack>
           ) : (
             <Text>
@@ -209,12 +208,15 @@ export default function TicketComponent({ userDetails }) {
                 width="80%"
               />
               <InputRightAddon paddingX="10px">
-               {String(details.description).length}/1000
+                {String(details.description).length}/1000
               </InputRightAddon>
             </InputGroup>
           </FormControl>
         ) : (
-          <Text width="90%">{details.description}</Text>
+          <Box width="100%">
+            <Heading>Description</Heading>
+            <h3>{details.description}</h3>
+          </Box>
         )}
         <Divider bg="black" />
         <HStack width="90%">
@@ -225,7 +227,7 @@ export default function TicketComponent({ userDetails }) {
             <FormControl>
               <FormLabel>Priority</FormLabel>
               <InputGroup>
-                <Select
+                <select
                   value={details.priority}
                   onChange={(e) => {
                     setDetails({
@@ -233,13 +235,12 @@ export default function TicketComponent({ userDetails }) {
                       priority: e.target.value,
                     });
                   }}
-                  width="50%"
                 >
                   <option disabled>Select priority</option>
                   <option>LOW</option>
                   <option>MEDIUM</option>
                   <option>HIGH</option>
-                </Select>
+                </select>
               </InputGroup>
             </FormControl>
           ) : (
@@ -251,7 +252,7 @@ export default function TicketComponent({ userDetails }) {
                     ? "red"
                     : details.priority === "MEDIUM"
                     ? "orange"
-                    : "yellow"
+                    : "green"
                 }
               >
                 {details.priority}
@@ -268,7 +269,7 @@ export default function TicketComponent({ userDetails }) {
             <FormControl width="50%">
               <FormLabel>Status</FormLabel>
               <InputGroup>
-                <Select
+                <select
                   value={details.status}
                   onChange={(e) => {
                     setDetails({
@@ -281,7 +282,7 @@ export default function TicketComponent({ userDetails }) {
                   <option>CREATED</option>
                   <option>IN_PROGRESS</option>
                   <option>SOLVED</option>
-                </Select>
+                </select>
               </InputGroup>
             </FormControl>
           ) : (
@@ -290,7 +291,7 @@ export default function TicketComponent({ userDetails }) {
               <Text
                 color={
                   details.status === "CREATED"
-                    ? "yellow"
+                    ? "green"
                     : details.status === "IN_PROGRESS"
                     ? "orange"
                     : "red"

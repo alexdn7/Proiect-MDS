@@ -8,6 +8,8 @@ export default function ActionsPanel({ userDetails }) {
         width="80%"
         border="2px solid black"
         boxShadow="0px 0px 10px 5px black"
+        borderRadius="20px"
+        paddingY="20px"
       >
         <Heading>Hello, {userDetails.name}!</Heading>
         <Heading>You're registered as a {userDetails.role}.</Heading>
@@ -26,7 +28,15 @@ export default function ActionsPanel({ userDetails }) {
               </Link>
 
               {["TESTER", "ADMIN", "DEVELOPER"].includes(userDetails.role) ? (
-                <Link to={`/tickets/`}>
+                <Link
+                  to={
+                    userDetails.role === "TESTER" || userDetails.role === "ADMIN"
+                      ? `/tickets?createdByUserId=${userDetails.userId}`
+                      : userDetails.role === "DEVELOPER"
+                      ? `/tickets?assignedToUserId=${userDetails.userId}`
+                      : null
+                  }
+                >
                   <Button>View my tickets</Button>
                 </Link>
               ) : null}
@@ -53,6 +63,11 @@ export default function ActionsPanel({ userDetails }) {
         <HStack width="90%">
           <VStack width="50%">
             <Heading>Users</Heading>
+            <HStack>
+              <Link to="/users">
+                <Button>View all users</Button>
+              </Link>
+            </HStack>
           </VStack>
         </HStack>
       </VStack>

@@ -47,7 +47,7 @@ const login = async (request, response) => {
     const existingUser = await prisma.user.findUniqueOrThrow({
       where: { email: email },
     });
-    if (!bcrypt.compare(password, existingUser.password)) {
+    if (!(await bcrypt.compare(password, existingUser.password))) {
       throw new Error("Incorrect password!");
     }
 

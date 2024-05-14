@@ -12,6 +12,8 @@ import {
   Text,
   Select,
   Box,
+  Heading,
+  Spacer,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deleteUser, getAllUsers } from "../services/UserService";
@@ -44,68 +46,84 @@ export default function UsersList() {
   }
 
   return (
-    <Grid templateColumns={"1fr 4fr"} height="90vh" margin="0px" padding="0">
-      <GridItem bg={"white"} margin={"0px"}>
-        <Center h="full" margin="0">
-          <VStack>
-            <span>Filter by</span>
-            <HStack>
-              <span>ROLE:</span>
-              <Select>
-                <option>TESTER</option>
-                <option>DEVELOPER</option>
-                <option>MANAGER</option>
-                <option>ADMIN</option>
-              </Select>
-            </HStack>
-            <span>Order by</span>
-            <Select>
-              <option>ID</option>
-              <option>Name</option>
-              <option>Role</option>
-            </Select>
-            <span>Ordering direction</span>
-            <Select>
-              <option>Ascending</option>
-              <option>Descending</option>
-            </Select>
-          </VStack>
-        </Center>
-      </GridItem>
-      <Flex
-        h={"90vh"}
-        justifyContent={"flex-start"}
-        flexWrap={"wrap"}
-        marginLeft={"10px"}
+    <Flex justifyContent="center" width="100%" height="auto">
+      <VStack
+        width="93%"
+        height="auto full"
+        justifyContent="center"
+        border="2px solid black"
+        boxShadow="0px 0px 10px 5px black"
+        paddingY="1%"
+        marginTop="3%"
+        borderRadius="20px"
       >
-        {users.map((user) => (
-          <Box key={user.id} width="30%" margin="5px">
-            <Card key={user.id} padding={"10px"}>
-              <CardHeader>
-                <h2>Name: {user.name}</h2>
-              </CardHeader>
-              <CardBody>
-                <span>ID: {user.id}</span>
-                <h2>Role: {user.role}</h2>
-              </CardBody>
+        <Heading>All users</Heading>
+        <HStack
+          width="90%"
+          paddingX="2%"
+          height="auto full"
+          borderRadius="30px"
+          border="2px solid black"
+          boxShadow="5px 5px 5px 5px black"
+          marginBottom="50px"
+        >
+          <h3>Filter</h3>
+          <Spacer />
+          <select
+            // onChange={(e) => handleChange(e, "priority")}
+            defaultValue=""
+            style={{ width: 15 + "%" }}
+          >
+            <option disabled value="">
+              Role
+            </option>
+            <option key="ADMIN" value="ADMIN">
+              ADMIN
+            </option>
+            <option key="TESTER" value="TESTER">
+              TESTER
+            </option>
+            <option key="DEVELOPER" value="DEVELOPER">
+              DEVELOPER
+            </option>
+            <option key="MANAGER" value="MANAGER">
+              MANAGER
+            </option>
+          </select>
+        </HStack>
+        <Grid templateColumns={"1fr 1fr 1fr 1fr"} width="93%" gap="2%">
+          {users.map((user) => (
+            <GridItem
+              key={user.id}
+              width="100%"
+              boxShadow="0px 0px 10px 10px black"
+              borderRadius="20px"
+              marginBottom="5%"
+            >
+              <Heading>{user.name}</Heading>
+              <Text>{user.email}</Text>
+              <Text>{user.role}</Text>
+
               <VStack>
-                <h4>Actions</h4>
-                <HStack></HStack>
-                <Button bg={"green"}>View profile</Button>
-                {userInfo.role === "ADMIN" ? (
-                  <Button bg={"red"} onClick={() => handleDeleteUser(user.id)}>
-                    Delete user
-                  </Button>
-                ) : (
-                  <div></div>
-                )}
-                <HStack />
+                <Text>Actions</Text>
+                <HStack marginBottom="10px">
+                  <Button bg={"green"}>View profile</Button>
+                  {userInfo.role === "ADMIN" ? (
+                    <Button
+                      bg={"red"}
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Delete user
+                    </Button>
+                  ) : (
+                    <div></div>
+                  )}
+                </HStack>
               </VStack>
-            </Card>
-          </Box>
-        ))}
-      </Flex>
-      <GridItem />
-    </Grid>
+            </GridItem>
+          ))}
+        </Grid>
+      </VStack>
+    </Flex>
   );
 }

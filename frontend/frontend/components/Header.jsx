@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import "../src/Header.css";
 import logo from "../assets/icons8-bug-tracking-32.png";
 
-export default function Header() {
+export default function Header({ userDetails }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -17,21 +17,23 @@ export default function Header() {
   }
 
   return (
-    <HStack
-      justifyContent="space-between"
-      padding="30px"
-      alignItems="center"
-      height="full"
-      width="auto full"
-    >
-      <Box>
-        <img src={logo} />
-      </Box>
-      <HStack alignContent="center">
+    <HStack padding="30px" height="full" width="auto full">
+      <Spacer />
+      <HStack>
         <Link to="/tickets">
           <Button leftIcon={<IoTicketSharp />}>Tickets</Button>
         </Link>
-        <Button leftIcon={<FaTicketSimple />}>My tickets</Button>
+        <Link
+          to={
+            userDetails.role === "TESTER" || userDetails.role === "ADMIN"
+              ? `/tickets?createdByUserId=${userDetails.userId}`
+              : userDetails.role === "DEVELOPER"
+              ? `/tickets?assignedToUserId=${userDetails.userId}`
+              : null
+          }
+        >
+          <Button leftIcon={<FaTicketSimple />}>My tickets</Button>
+        </Link>
         <Link to="/auth/actions">
           <Button leftIcon={<RiAdminFill />}>Actions</Button>
         </Link>

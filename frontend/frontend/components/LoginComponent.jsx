@@ -69,7 +69,7 @@ export default function LoginComponent() {
       >
         <Heading>Login</Heading>
         <form onSubmit={handleSubmit} style={{ width: 80 + "%" }}>
-          <VStack width="100%" border="1px solid black">
+          <VStack width="100%">
             <FormControl isRequired="true" width="80%">
               <FormLabel>Email</FormLabel>
               <Input

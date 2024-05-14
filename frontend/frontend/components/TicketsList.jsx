@@ -13,17 +13,47 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deleteTicket, getAllTickets } from "../services/TicketService";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAllUsers } from "../services/UserService";
 
 export default function TicketsList({ userDetails }) {
   const [tickets, setTickets] = useState([]);
   const [filteringOptions, setFilteringOptions] = useState({});
   const [users, setUsers] = useState([]);
-  console.log(userDetails);
+  const queryOption = useLocation().search;
+
   useEffect(() => {
     getAndSetTickets();
-  }, []);
+
+    if (queryOption) {
+      console.log(queryOption);
+      if (queryOption.includes("createdByUserId")) {
+        console.log(queryOption);
+        setFilteringOptions((prevOptions) => {
+          const filtering = {
+            ...prevOptions,
+            ["createdByUserId"]: queryOption.substring(17),
+          };
+          console.log(filtering);
+          getAndSetTickets(filtering);
+          return filtering;
+        });
+      }
+
+      if (queryOption.includes("assignedToUserId")) {
+        console.log(queryOption);
+        setFilteringOptions((prevOptions) => {
+          const filtering = {
+            ...prevOptions,
+            ["assignedToUserId"]: queryOption.substring(18),
+          };
+          console.log(filtering);
+          getAndSetTickets(filtering);
+          return filtering;
+        });
+      }
+    }
+  }, [queryOption]);
 
   function getAndSetTickets(filteringOptions) {
     getAllTickets(filteringOptions)
@@ -83,13 +113,14 @@ export default function TicketsList({ userDetails }) {
         boxShadow="0px 0px 10px 5px black"
         paddingY="1%"
         marginTop="2%"
+        borderRadius="20px"
       >
         <Heading>All tickets</Heading>
         <HStack
-          width="90%"
+          width="93%"
           paddingX="2%"
           height="auto full"
-          borderRadius="50px"
+          borderRadius="30px"
           border="2px solid black"
           boxShadow="5px 5px 5px 5px black"
         >
@@ -172,12 +203,7 @@ export default function TicketsList({ userDetails }) {
           </Button>
         </HStack>
 
-        <Grid
-          templateColumns="33% 33% 33%"
-          paddingY="2%"
-          gap="10x"
-          width="100%"
-        >
+        <Grid templateColumns="32.5% 32.5% 33%" paddingY="2%" width="100%">
           {tickets.length === 0 ? (
             <Heading gridColumnStart={1} gridColumnEnd={4}>
               There are no tickets, refresh your page or remove your filters!
@@ -192,6 +218,8 @@ export default function TicketsList({ userDetails }) {
               alignContent="space-evenly"
               marginLeft="5%"
               paddingY="2%"
+              borderRadius="20px"
+              marginBottom="5%"
             >
               <HStack justifyContent="center">
                 <Heading overflowX="auto scroll">

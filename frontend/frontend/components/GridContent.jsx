@@ -25,7 +25,10 @@ export default function GridContent({ userDetails }) {
       backgroundColor="#242424"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
-        <Header isLogged={userDetails ? "true" : "false"} />
+        <Header
+          isLogged={userDetails ? "true" : "false"}
+          userDetails={userDetails}
+        />
       </GridItem>
       <GridItem area={"main"} overflow="auto">
         <Routes>

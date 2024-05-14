@@ -21,20 +21,15 @@ const getAllUsers = async (request, response) => {
 const deleteUser = async (request, response) => {
   try {
     const { id } = request.params;
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { id: parseInt(id) },
-    });
 
-    await prisma.user.delete({
-      where: { id: parseInt(id) },
+    const deletedUser = await prisma.user.delete({
+      where: { id: id },
     });
     response
       .status(StatusCodes.OK)
-      .json({ message: `User with ID ${id} succesfully deleted!` });
+      .json({ message: `User with ID ${deletedUser.id} succesfully deleted!` });
   } catch (error) {
-    response
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: `Error deleting user! ${error}` });
+    response.status(StatusCodes.BAD_REQUEST).json(error.message);
   }
 };
 
