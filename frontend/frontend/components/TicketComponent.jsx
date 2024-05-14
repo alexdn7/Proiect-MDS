@@ -40,7 +40,7 @@ export default function TicketComponent({ userDetails }) {
 
   async function getAndSetDetails() {
     try {
-      const response = await getTicketById(parseInt(id));
+      const response = await getTicketById(id);
       setDetails(response.data);
       console.log(response.data);
     } catch (error) {
@@ -54,7 +54,7 @@ export default function TicketComponent({ userDetails }) {
 
   async function handleUpdate() {
     try {
-      const response = await updateTicket(parseInt(id), details);
+      const response = await updateTicket(id, details);
       setUpdateState(false);
       getAndSetDetails();
     } catch (error) {
@@ -96,9 +96,8 @@ export default function TicketComponent({ userDetails }) {
     <Flex justifyContent="center">
       <VStack
         width="60%"
-        bg="teal"
         border="1px solid black"
-        boxShadow="0px 0px 10px 10px #135D66"
+        boxShadow="0px 0px 10px 10px black"
         zIndex="1"
         marginTop="30px"
         paddingY="10px"
@@ -119,8 +118,9 @@ export default function TicketComponent({ userDetails }) {
                 }
                 as="textarea"
                 height="auto"
+                width="80%"
               />
-              <InputRightAddon>
+              <InputRightAddon paddingX="10px">
                 {String(details.title).length}/300
               </InputRightAddon>
             </InputGroup>
@@ -128,14 +128,16 @@ export default function TicketComponent({ userDetails }) {
         ) : (
           <Heading size="lg">{details.title}</Heading>
         )}
-        <Divider bg="black" />
+        <Divider />
         <VStack alignItems="flex-start" width="90%">
-          <Link to={`/users/${details.createdByUserId}`}>
-            <Text>
-              Created by {details.createdBy.name} on {""}
-              {format(new Date(details.createdOn), "dd.MM.yyyy HH:mm:ss")}.
-            </Text>
-          </Link>
+          <Text textDecoration="none">
+            Created by{" "}
+            <Link to={`/users/${details.createdByUserId}`}>
+              {details.createdBy.name}
+            </Link>{" "}
+            on {""}
+            {format(new Date(details.createdOn), "dd.MM.yyyy HH:mm:ss")}.
+          </Text>
 
           {updateState &&
           (userDetails.role === "ADMIN" ||
@@ -149,7 +151,7 @@ export default function TicketComponent({ userDetails }) {
                 onChange={(e) => {
                   setDetails({
                     ...details,
-                    assignedToUserId: parseInt(e.target.value),
+                    assignedToUserId: e.target.value,
                   });
                 }}
                 width="60%"
@@ -167,20 +169,24 @@ export default function TicketComponent({ userDetails }) {
               </Select>
             </HStack>
           ) : (
-            <Link to={`/users/${details.assignedToUserId}`}>
-              <Text>Assigned to: {details.assignedTo.name}.</Text>
-            </Link>
+            <Text>
+              Assigned to{" "}
+              <Link to={`/users/${details.assignedToUserId}`}>
+                {details.assignedTo.name}
+              </Link>
+              .
+            </Text>
           )}
 
-          <Link to={`/projects/${details.projectId}`}>
-            <Text>
-              Project:{" "}
+          <Text>
+            Project:{" "}
+            <Link to={`/projects/${details.projectId}`}>
               {details.project.title.length > 80
                 ? String(details.project.title).substring(0, 80) + "..."
                 : details.project.title}
-              .
-            </Text>
-          </Link>
+            </Link>
+            .
+          </Text>
         </VStack>
 
         <Divider bg="black" />
@@ -200,9 +206,10 @@ export default function TicketComponent({ userDetails }) {
                 }
                 as={"textarea"}
                 height="auto"
+                width="80%"
               />
-              <InputRightAddon>
-                {String(details.description).length}/1000
+              <InputRightAddon paddingX="10px">
+               {String(details.description).length}/1000
               </InputRightAddon>
             </InputGroup>
           </FormControl>
@@ -345,7 +352,7 @@ export default function TicketComponent({ userDetails }) {
             details.createdByUserId === userDetails.userId) ? (
             <Button
               rightIcon={<FaTrashCan />}
-              onClick={() => handleDeleteTicket(parseInt(id))}
+              onClick={() => handleDeleteTicket(id)}
             >
               Delete
             </Button>

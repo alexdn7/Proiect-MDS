@@ -5,19 +5,18 @@ const prisma = new PrismaClient();
 
 const createTicket = async (request, response) => {
   try {
-    const { title, description, priority, projectId, assignedToUserId } =
+    const { title, description, createdByUserId, priority, projectId, assignedToUserId } =
       request.body;
     const createdTicket = await prisma.ticket.create({
       data: {
         title: title,
         description: description,
         priority: priority,
-        createdByUserId: 1,
+        createdByUserId: createdByUserId,
         createdOn: new Date(),
         projectId: projectId,
         assignedToUserId: assignedToUserId,
         status: "CREATED",
-        editedByUserId: 1,
       },
     });
     response.status(StatusCodes.CREATED).json(createdTicket);
@@ -44,11 +43,7 @@ const getAllTickets = async (request, response) => {
           ) {
             throw new Error("Invalid query parameter!");
           } else {
-            if (key === "createdByUserId" || key === "assignedToUserId") {
-              createdQuery[key] = parseInt(request.query[key]);
-            } else {
-              createdQuery[key] = request.query[key];
-            }
+            createdQuery[key] = request.query[key];
           }
         });
       }
@@ -134,7 +129,7 @@ const getTicketById = async (request, response) => {
         },
       },
       where: {
-        id: parseInt(id),
+        id: id,
       },
     });
     response.status(StatusCodes.OK).json(ticket);
@@ -157,7 +152,7 @@ const updateTicket = async (request, response) => {
 
     const updatedTicket = await prisma.ticket.update({
       where: {
-        id: parseInt(id),
+        id: id,
       },
       data: {
         title: title,
@@ -181,7 +176,7 @@ const deleteTicket = async (request, response) => {
 
     const deletedTicket = await prisma.ticket.delete({
       where: {
-        id: parseInt(id),
+        id: id,
       },
     });
 
@@ -198,4 +193,10 @@ const deleteTicket = async (request, response) => {
     }
   }
 };
-module.exports = { createTicket, getAllTickets, getTicketById, updateTicket, deleteTicket };
+module.exports = {
+  createTicket,
+  getAllTickets,
+  getTicketById,
+  updateTicket,
+  deleteTicket,
+};

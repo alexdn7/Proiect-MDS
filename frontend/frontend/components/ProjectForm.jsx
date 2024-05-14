@@ -12,15 +12,17 @@ import {
 import { getAllUsers } from "../services/UserService";
 import { useEffect, useState } from "react";
 import { createProject } from "../services/ProjectService";
+import { useNavigate } from "react-router-dom";
 
-export default function ProjectForm() {
+export default function ProjectForm({ userDetails }) {
   const [users, setUsers] = useState([]);
   const [details, setDetails] = useState({
     title: "",
     description: "",
-    managedByUserId: "",
-    members: [1],
+    managedByUserId: userDetails.userId,
+    members: [],
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAndSetUsers();
@@ -39,8 +41,12 @@ export default function ProjectForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      details.members = details.members.map((member) => parseInt(member));
-      const response = createProject(details);
+      const response = await createProject(details);
+      if (response.status == 201) {
+        // return navigate("/projects");
+        console.log("fac ceva aici");
+        navigate("/projects");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -77,9 +83,10 @@ export default function ProjectForm() {
         <Heading>Add a new project</Heading>
         <form style={{ width: 100 + "%", padding: 10 }} onSubmit={handleSubmit}>
           <FormControl isRequired="true" marginBottom="5px">
-            <FormLabel>Title</FormLabel>
+            <FormLabel htmlFor="titleInput">Title</FormLabel>
             <InputGroup>
               <Input
+                id="titleInput"
                 as="textarea"
                 type="text"
                 width="100%"
@@ -105,31 +112,34 @@ export default function ProjectForm() {
             </InputGroup>
           </FormControl>
           <FormControl isRequired={true} marginBottom="5px">
-            <FormLabel>Manager</FormLabel>
+            <FormLabel htmlFor="selectManager">Manager</FormLabel>
             <InputGroup>
               <select
+                id="selectManager"
                 onClick={getAndSetUsers()}
                 value={details.managedByUserId}
                 onChange={(e) => {
                   setDetails({
                     ...details,
-                    managedByUserId: parseInt(e.target.value),
+                    managedByUserId: e.target.value,
                   });
                 }}
                 style={{ width: 100 + "%" }}
               >
-                {users.map((user) => (
-                  <option
-                    key={user.id}
-                    value={user.id}
-                    style={{
-                      zIndex: 1,
-                      overflow: "scroll",
-                    }}
-                  >
-                    {user.name} - {user.role}
-                  </option>
-                ))}
+                {users
+                  .filter((user) => user.role === "MANAGER")
+                  .map((user) => (
+                    <option
+                      key={user.id}
+                      value={user.id}
+                      style={{
+                        zIndex: 1,
+                        overflow: "scroll",
+                      }}
+                    >
+                      {user.name} - {user.role}
+                    </option>
+                  ))}
               </select>
             </InputGroup>
           </FormControl>
@@ -159,11 +169,7 @@ export default function ProjectForm() {
               </select>
             </InputGroup>
           </FormControl>
-          <Button
-            type="submit"
-            width="80%"
-            isDisabled={!isCompleted()}
-          >
+          <Button type="submit" width="80%" isDisabled={!isCompleted()}>
             Create
           </Button>
         </form>

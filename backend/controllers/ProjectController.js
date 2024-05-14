@@ -34,7 +34,15 @@ const createProject = async (request, response) => {
 
 const getAllProjects = async (request, response) => {
   try {
-    const projects = await prisma.project.findMany();
+    const projects = await prisma.project.findMany({
+      include: {
+        managedByUser: {
+          select: {
+            name: true
+          }
+        }
+      }
+    });
     response.status(StatusCodes.OK).json(projects);
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
@@ -83,11 +91,14 @@ const getProjectMembers = async (request, response) => {
 
 const deleteProject = async (request, response) => {
   try {
+    const { id } = request.params;
+
     const deletedProject = await prisma.project.delete({
       where: {
-        id: parseInt(request.params.id),
+        id: id,
       },
     });
+    
     response
       .status(StatusCodes.OK)
       .json(`Project with ID ${deletedProject.id} was successfully deleted!`);

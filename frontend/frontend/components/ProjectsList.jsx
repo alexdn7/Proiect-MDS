@@ -4,13 +4,12 @@ import {
   Text,
   HStack,
   Heading,
-  VStack,
   GridItem,
-  Center,
   Box,
 } from "@chakra-ui/react";
 import { deleteProject, getAllProjects } from "../services/ProjectService";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState([]);
@@ -40,20 +39,39 @@ export default function ProjectsList() {
   return (
     <Grid
       templateColumns="33% 33% 33%"
-      padding="20px"
+      padding="30px"
       gap="10px"
-      width="100%"
+      maxWidth="100%"
     >
       {projects.map((project) => (
-        <GridItem padding="2" backgroundColor="teal" key={project.id}>
+        <GridItem
+          padding="1%"
+          backgroundColor="#242424"
+          border="2px solid black"
+          boxShadow="1px 1px 5px 2px black"
+          key={project.id}
+        >
           <Heading>{project.title}</Heading>
           <Box overflowX="auto scroll">
             <Text>{project.description}</Text>
           </Box>
-          <Text>Manager: {project.managedByUserId}</Text>
+
+          <Text>
+            Manager:
+            <Link
+              to={`/users/${project.managedByUserId}`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              {project.managedByUser.name}
+            </Link>
+          </Text>
           <HStack justifyContent={"center"} marginTop="2">
-            <Button size="sm">View details</Button>
-            <Button size="sm" onClick={() => handleDeleteProject(project.id)}>Delete</Button>
+            <Link to={`/projects/${project.id}`}>
+              <Button size="sm">View details</Button>
+            </Link>
+            <Button size="sm" onClick={() => handleDeleteProject(project.id)}>
+              Delete
+            </Button>
           </HStack>
         </GridItem>
       ))}

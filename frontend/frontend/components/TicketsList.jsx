@@ -7,7 +7,6 @@ import {
   GridItem,
   HStack,
   Heading,
-  Select,
   Spacer,
   Text,
   VStack,
@@ -81,8 +80,8 @@ export default function TicketsList({ userDetails }) {
         height="auto full"
         justifyContent="center"
         border="2px solid black"
-        boxShadow="5px 5px 5px 5px black"
-        paddingY="2%"
+        boxShadow="0px 0px 10px 5px black"
+        paddingY="1%"
         marginTop="2%"
       >
         <Heading>All tickets</Heading>
@@ -175,8 +174,8 @@ export default function TicketsList({ userDetails }) {
 
         <Grid
           templateColumns="33% 33% 33%"
-          padding="10px"
-          gap="10px"
+          paddingY="2%"
+          gap="10x"
           width="100%"
         >
           {tickets.length === 0 ? (
@@ -186,10 +185,13 @@ export default function TicketsList({ userDetails }) {
           ) : null}
           {tickets.map((ticket) => (
             <GridItem
-              backgroundColor="#9DB2BF"
+              border="2px solid black"
+              boxShadow="0px 1px 5px 5px black"
               key={ticket.id}
               height="auto full"
               alignContent="space-evenly"
+              marginLeft="5%"
+              paddingY="2%"
             >
               <HStack justifyContent="center">
                 <Heading overflowX="auto scroll">
@@ -235,7 +237,7 @@ export default function TicketsList({ userDetails }) {
               <Text>Status: {ticket.status} </Text>
               <HStack justifyContent="center" marginTop="2">
                 <Link to={`/tickets/${ticket.id}`}>
-                  <Button size="sm" backgroundColor="whitesmoke">
+                  <Button size="sm" backgroundColor="green">
                     View details
                   </Button>
                 </Link>

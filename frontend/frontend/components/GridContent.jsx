@@ -34,7 +34,10 @@ export default function GridContent({ userDetails }) {
             element={<HomePage isLogged={true} userDetails={userDetails} />}
           />
           <Route path="/users" element={<UsersList />} />
-          <Route path="/projects/add" element={<ProjectForm />} />
+          <Route
+            path="/projects/add"
+            element={<ProjectForm userDetails={userDetails} />}
+          />
           <Route path="/projects" element={<ProjectsList />} />
           <Route
             path="/tickets/add"

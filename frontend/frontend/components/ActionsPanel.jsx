@@ -25,8 +25,10 @@ export default function ActionsPanel({ userDetails }) {
                 <Button>View all tickets</Button>
               </Link>
 
-              {["TESTER", "ADMIN", "DEVELOPER".includes(userDetails.role)] ? (
-                <Button>View my tickets</Button>
+              {["TESTER", "ADMIN", "DEVELOPER"].includes(userDetails.role) ? (
+                <Link to={`/tickets/`}>
+                  <Button>View my tickets</Button>
+                </Link>
               ) : null}
             </HStack>
           </VStack>
@@ -35,7 +37,9 @@ export default function ActionsPanel({ userDetails }) {
             <HStack>
               {userDetails.role === "MANAGER" ||
               userDetails.role === "ADMIN" ? (
-                <Button>Create a new project</Button>
+                <Link to="/projects/add">
+                  <Button>Create a new project</Button>
+                </Link>
               ) : null}
               <Link to="/projects">
                 <Button>View all projects</Button>
