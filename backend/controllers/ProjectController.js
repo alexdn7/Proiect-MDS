@@ -38,10 +38,10 @@ const getAllProjects = async (request, response) => {
       include: {
         managedByUser: {
           select: {
-            name: true
-          }
-        }
-      }
+            name: true,
+          },
+        },
+      },
     });
     response.status(StatusCodes.OK).json(projects);
   } catch (error) {
@@ -51,12 +51,31 @@ const getAllProjects = async (request, response) => {
 
 const getProjectById = async (request, response) => {
   try {
+    const { id } = request.params;
+
     const project = await prisma.project.findFirstOrThrow({
       where: {
-        id: parseInt(request.params.id),
+        id: id,
       },
       include: {
-        members: true,
+        members: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+        managedByUser: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
       },
     });
     response.status(StatusCodes.OK).json(project);
@@ -98,7 +117,7 @@ const deleteProject = async (request, response) => {
         id: id,
       },
     });
-    
+
     response
       .status(StatusCodes.OK)
       .json(`Project with ID ${deletedProject.id} was successfully deleted!`);
