@@ -65,6 +65,7 @@ const getProjectById = async (request, response) => {
                 id: true,
                 name: true,
                 email: true,
+                role: true,
               },
             },
           },
@@ -108,6 +109,38 @@ const getProjectMembers = async (request, response) => {
   }
 };
 
+const updateProject = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { title, description, members } = request.body;
+
+    const updateProject = await prisma.project.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title,
+        description,
+        members: {
+          create: members.map((member) => ({
+            user: {
+              connect: {
+                id: member,
+              },
+            },
+          })),
+        },
+      },
+      include: {
+        members: true,
+      },
+    });
+    response.status(StatusCodes.OK).json(updateProject);
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+  }
+};
+
 const deleteProject = async (request, response) => {
   try {
     const { id } = request.params;
@@ -137,5 +170,6 @@ module.exports = {
   getAllProjects,
   getProjectById,
   getProjectMembers,
+  updateProject,
   deleteProject,
 };

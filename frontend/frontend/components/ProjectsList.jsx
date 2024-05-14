@@ -50,6 +50,7 @@ export default function ProjectsList() {
           border="2px solid black"
           boxShadow="1px 1px 5px 2px black"
           key={project.id}
+          borderRadius="10px"
         >
           <Heading>{project.title}</Heading>
           <Box overflowX="auto scroll">
@@ -57,7 +58,7 @@ export default function ProjectsList() {
           </Box>
 
           <Text>
-            Manager:
+            Manager:{" "}
             <Link
               to={`/users/${project.managedByUserId}`}
               style={{ textDecoration: "none", color: "white" }}

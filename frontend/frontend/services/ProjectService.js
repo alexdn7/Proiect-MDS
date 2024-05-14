@@ -11,6 +11,9 @@ export const getProjectById = (projectId) =>
 
 export const getProjectMembers = (projectId) =>
   axios.get(BASE_URL + `/members/${projectId}`);
-  
+
+export const updateProject = (projectId, projectDto) =>
+  axios.patch(BASE_URL + `/${projectId}`, projectDto);
+
 export const deleteProject = (projectId) =>
   axios.delete(BASE_URL + `/${projectId}`);

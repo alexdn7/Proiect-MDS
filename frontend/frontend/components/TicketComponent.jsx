@@ -133,7 +133,10 @@ export default function TicketComponent({ userDetails }) {
         <VStack alignItems="flex-start" width="90%">
           <Text textDecoration="none">
             Created by{" "}
-            <Link to={`/users/${details.createdByUserId}`}>
+            <Link
+              to={`/users/${details.createdByUserId}`}
+              style={{ textDecoration: "none", color: "limegreen" }}
+            >
               {details.createdBy.name}
             </Link>{" "}
             on {""}
@@ -170,7 +173,10 @@ export default function TicketComponent({ userDetails }) {
           ) : (
             <Text>
               Assigned to{" "}
-              <Link to={`/users/${details.assignedToUserId}`}>
+              <Link
+                to={`/users/${details.assignedToUserId}`}
+                style={{ textDecoration: "none", color: "limegreen" }}
+              >
                 {details.assignedTo.name}
               </Link>
               .
@@ -179,7 +185,10 @@ export default function TicketComponent({ userDetails }) {
 
           <Text>
             Project:{" "}
-            <Link to={`/projects/${details.projectId}`}>
+            <Link
+              to={`/projects/${details.projectId}`}
+              style={{ textDecoration: "none", color: "limegreen" }}
+            >
               {details.project.title.length > 80
                 ? String(details.project.title).substring(0, 80) + "..."
                 : details.project.title}
