@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  name            String
-  email           String           @unique
-  role            Role
-  password        String
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  role         Role
+  registeredOn DateTime @default(now())
+  password     String
+
   managedProjects Project[]
   projects        Projects_Users[]
   createdTickets  Ticket[]         @relation("CreatedBy")
@@ -28,46 +30,50 @@ enum Role {
 }
 
 model Project {
-  id              Int              @id @default(autoincrement())
-  title           String
-  description     String
-  managedByUser   User             @relation(fields: [managedByUserId], references: [id], onDelete: Cascade)
-  managedByUserId Int
-  members         Projects_Users[]
-  tickets         Ticket[]
+  id          String   @id @default(uuid())
+  title       String @db.VarChar(250)
+  description String @db.VarChar(500)
+
+  managedByUser   User   @relation(fields: [managedByUserId], references: [id], onDelete: Cascade)
+  managedByUserId String
+
+  members Projects_Users[]
+  tickets Ticket[]
 }
 
 model Projects_Users {
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int
+  projectId String
 
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   @@id([projectId, userId])
 }
 
 model Ticket {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
+  id          String   @id @default(uuid())
+  title       String   @db.VarChar(300)
+  description String   @db.VarChar(1000)
   priority    Priority
-  createdOn   DateTime
 
-  createdBy       User @relation("CreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
-  createdByUserId Int
+  image_path String?
+  createdOn  DateTime
+
+  createdBy       User   @relation("CreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  createdByUserId String
 
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int
+  projectId String
 
-  assignedTo       User @relation("AssignedTo", fields: [assignedToUserId], references: [id], onDelete: Cascade)
-  assignedToUserId Int
+  assignedTo       User   @relation("AssignedTo", fields: [assignedToUserId], references: [id], onDelete: Cascade)
+  assignedToUserId String
 
   status         Status
   lastModifiedOn DateTime?
 
-  editedBy       User @relation("EditedBy", fields: [editedByUserId], references: [id], onDelete: Cascade)
-  editedByUserId Int
+  editedBy       User?   @relation("EditedBy", fields: [editedByUserId], references: [id], onDelete: Cascade)
+  editedByUserId String?
 }
 
 enum Priority {

@@ -8,6 +8,7 @@ import {
   HStack,
   Heading,
   Select,
+  Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -76,24 +77,32 @@ export default function TicketsList({ userDetails }) {
   return (
     <Flex justifyContent="center" width="100%" height="auto">
       <VStack
-        width="20%"
-        padding="10px"
-        backgroundColor="#9DB2BF"
-        marginY="10px"
-        marginLeft="10px"
-        height="fill"
+        width="90%"
+        height="auto full"
         justifyContent="center"
+        border="2px solid black"
+        boxShadow="5px 5px 5px 5px black"
+        paddingY="2%"
+        marginTop="2%"
       >
-        <VStack width="100%" justifyContent="center" heigth="100%">
-          <Heading>Filter results</Heading>
-          <Select
-            backgroundColor="white"
+        <Heading>All tickets</Heading>
+        <HStack
+          width="90%"
+          paddingX="2%"
+          height="auto full"
+          borderRadius="50px"
+          border="2px solid black"
+          boxShadow="5px 5px 5px 5px black"
+        >
+          <h3>Filter</h3>
+          <Spacer />
+          <select
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "createdByUserId")}
             defaultValue=""
-            width="80%"
+            style={{ width: 15 + "%" }}
           >
-            <option disabled value="" key="">
+            <option disabled value="">
               Created by
             </option>
             {users.length === 0 ? (
@@ -104,12 +113,11 @@ export default function TicketsList({ userDetails }) {
                 {user.name}
               </option>
             ))}
-          </Select>
-          <Select
-            backgroundColor="white"
+          </select>
+          <select
             onChange={(e) => handleChange(e, "priority")}
             defaultValue=""
-            width="80%"
+            style={{ width: 15 + "%" }}
           >
             <option disabled value="">
               Priority
@@ -123,13 +131,12 @@ export default function TicketsList({ userDetails }) {
             <option key="HIGH" value="HIGH">
               HIGH
             </option>
-          </Select>
-          <Select
-            backgroundColor="white"
+          </select>
+          <select
             defaultValue=""
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "assignedToUserId")}
-            width="80%"
+            style={{ width: 15 + "%" }}
           >
             <option disabled value="" key="">
               Assigned to
@@ -142,12 +149,11 @@ export default function TicketsList({ userDetails }) {
                 {user.name}
               </option>
             ))}
-          </Select>
-          <Select
-            backgroundColor="white"
+          </select>
+          <select
             defaultValue=""
             onChange={(e) => handleChange(e, "status")}
-            width="80%"
+            style={{ width: 15 + "%" }}
           >
             <option disabled value="">
               Status
@@ -161,93 +167,94 @@ export default function TicketsList({ userDetails }) {
             <option key="SOLVED" value="SOLVED">
               SOLVED
             </option>
-          </Select>
+          </select>
           <Button onClick={() => (setFilteringOptions({}), getAndSetTickets())}>
             Remove filters
           </Button>
-        </VStack>
-      </VStack>
-      <Grid
-        templateColumns="33% 33% 33%"
-        padding="10px"
-        gap="10px"
-        width="100%"
-      >
-        {tickets.length === 0 ? (
-          <Heading alignSelf="center">
-            There are no tickets, try again or remove your filter!
-          </Heading>
-        ) : null}
-        {tickets.map((ticket) => (
-          <GridItem
-            backgroundColor="#9DB2BF"
-            key={ticket.id}
-            height="auto full" 
-            alignContent="space-evenly"
-          >
-            <HStack justifyContent="center">
-              <Heading overflowX="auto scroll">
-                {ticket.title.length >= 15
-                  ? ticket.title.substring(0, 15) + "..."
-                  : ticket.title}
-              </Heading>
-              <Badge
-                alignSelf={"center"}
-                backgroundColor={
-                  ticket.priority === "HIGH"
-                    ? "red"
-                    : ticket.priority === "MEDIUM"
-                    ? "orange"
-                    : "green"
-                }
-              >
-                {ticket.priority}
-              </Badge>
-            </HStack>
-            <Box overflowX="auto scroll">
-              <Text>
-                {ticket.description.length > 100
-                  ? ticket.description.substring(0, 100) + "..."
-                  : ticket.description}
-              </Text>
-            </Box>
-            <Text>Project: {ticket.project.title} </Text>
-            <HStack justifyContent="center">
-              <Text>
-                Created by:{" "}
-                <Link to={`/users/${ticket.createdByUserId}`}>
-                  {ticket.createdBy.name}
-                </Link>{" "}
-              </Text>
-              <Text>
-                | Assigned to:{" "}
-                <Link to={`/users/${ticket.assignedToUserId}`}>
-                  {ticket.assignedTo.name}
-                </Link>{" "}
-              </Text>
-            </HStack>
-            <Text>Status: {ticket.status} </Text>
-            <HStack justifyContent="center" marginTop="2">
-              <Link to={`/tickets/${ticket.id}`}>
-                <Button size="sm" backgroundColor="whitesmoke">
-                  View details
-                </Button>
-              </Link>
-              {userDetails.role == "ADMIN" ||
-              (userDetails.role === "TESTER" &&
-                ticket.createdByUserId === userDetails.userId) ? (
-                <Button
-                  size="sm"
-                  backgroundColor="red"
-                  onClick={() => handleDeleteTicket(ticket.id)}
+        </HStack>
+
+        <Grid
+          templateColumns="33% 33% 33%"
+          padding="10px"
+          gap="10px"
+          width="100%"
+        >
+          {tickets.length === 0 ? (
+            <Heading gridColumnStart={1} gridColumnEnd={4}>
+              There are no tickets, refresh your page or remove your filters!
+            </Heading>
+          ) : null}
+          {tickets.map((ticket) => (
+            <GridItem
+              backgroundColor="#9DB2BF"
+              key={ticket.id}
+              height="auto full"
+              alignContent="space-evenly"
+            >
+              <HStack justifyContent="center">
+                <Heading overflowX="auto scroll">
+                  {ticket.title.length >= 15
+                    ? ticket.title.substring(0, 15) + "..."
+                    : ticket.title}
+                </Heading>
+                <Badge
+                  alignSelf={"center"}
+                  backgroundColor={
+                    ticket.priority === "HIGH"
+                      ? "red"
+                      : ticket.priority === "MEDIUM"
+                      ? "orange"
+                      : "green"
+                  }
                 >
-                  Delete
-                </Button>
-              ) : null}
-            </HStack>
-          </GridItem>
-        ))}
-      </Grid>
+                  {ticket.priority}
+                </Badge>
+              </HStack>
+              <Box overflowX="auto scroll">
+                <Text>
+                  {ticket.description.length > 100
+                    ? ticket.description.substring(0, 100) + "..."
+                    : ticket.description}
+                </Text>
+              </Box>
+              <Text>Project: {ticket.project.title} </Text>
+              <HStack justifyContent="center">
+                <Text>
+                  Created by:{" "}
+                  <Link to={`/users/${ticket.createdByUserId}`}>
+                    {ticket.createdBy.name}
+                  </Link>{" "}
+                </Text>
+                <Text>
+                  | Assigned to:{" "}
+                  <Link to={`/users/${ticket.assignedToUserId}`}>
+                    {ticket.assignedTo.name}
+                  </Link>{" "}
+                </Text>
+              </HStack>
+              <Text>Status: {ticket.status} </Text>
+              <HStack justifyContent="center" marginTop="2">
+                <Link to={`/tickets/${ticket.id}`}>
+                  <Button size="sm" backgroundColor="whitesmoke">
+                    View details
+                  </Button>
+                </Link>
+                {userDetails.role == "ADMIN" ||
+                (userDetails.role === "TESTER" &&
+                  ticket.createdByUserId === userDetails.userId) ? (
+                  <Button
+                    size="sm"
+                    backgroundColor="red"
+                    onClick={() => handleDeleteTicket(ticket.id)}
+                  >
+                    Delete
+                  </Button>
+                ) : null}
+              </HStack>
+            </GridItem>
+          ))}
+        </Grid>
+      </VStack>
     </Flex>
   );
 }

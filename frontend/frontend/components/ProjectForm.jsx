@@ -62,16 +62,16 @@ export default function ProjectForm() {
     <Flex
       justifyContent="center"
       width="100%"
-      height={"100%"}
-      alignItems={"center"}
+      height="100%"
+      alignItems="center"
     >
       <VStack
         width="30%"
         border="1.5px solid black"
         borderRadius="5px"
         padding="2%"
-        backgroundColor="white"
-        boxShadow="0px 0px 10px 10px #135D66"
+        boxShadow="0px 0px 10px 10px black"
+        justifyContent="center"
         zIndex="1"
       >
         <Heading>Add a new project</Heading>
@@ -82,6 +82,7 @@ export default function ProjectForm() {
               <Input
                 as="textarea"
                 type="text"
+                width="100%"
                 value={details.title}
                 onChange={(e) =>
                   setDetails({ ...details, title: e.target.value })
@@ -95,6 +96,7 @@ export default function ProjectForm() {
               <Input
                 as="textarea"
                 type="text"
+                width="100%"
                 value={details.description}
                 onChange={(e) =>
                   setDetails({ ...details, description: e.target.value })
@@ -105,7 +107,7 @@ export default function ProjectForm() {
           <FormControl isRequired={true} marginBottom="5px">
             <FormLabel>Manager</FormLabel>
             <InputGroup>
-              <Select
+              <select
                 onClick={getAndSetUsers()}
                 value={details.managedByUserId}
                 onChange={(e) => {
@@ -114,6 +116,7 @@ export default function ProjectForm() {
                     managedByUserId: parseInt(e.target.value),
                   });
                 }}
+                style={{ width: 100 + "%" }}
               >
                 {users.map((user) => (
                   <option
@@ -127,7 +130,7 @@ export default function ProjectForm() {
                     {user.name} - {user.role}
                   </option>
                 ))}
-              </Select>
+              </select>
             </InputGroup>
           </FormControl>
           <FormControl isRequired={true} marginBottom="10px">
@@ -160,7 +163,6 @@ export default function ProjectForm() {
             type="submit"
             width="80%"
             isDisabled={!isCompleted()}
-            backgroundColor={"teal"}
           >
             Create
           </Button>

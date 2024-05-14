@@ -19,12 +19,10 @@ export default function Header() {
   return (
     <HStack
       justifyContent="space-between"
-      paddingX="2%"
-      padding="10px"
+      padding="30px"
       alignItems="center"
-      backgroundColor="#27374D"
       height="full"
-      width="100%"
+      width="auto full"
     >
       <Box>
         <img src={logo} />
@@ -34,7 +32,9 @@ export default function Header() {
           <Button leftIcon={<IoTicketSharp />}>Tickets</Button>
         </Link>
         <Button leftIcon={<FaTicketSimple />}>My tickets</Button>
-        <Button leftIcon={<RiAdminFill />}>Actions</Button>
+        <Link to="/auth/actions">
+          <Button leftIcon={<RiAdminFill />}>Actions</Button>
+        </Link>
         <Button leftIcon={<CgProfile />}>Profile</Button>
         <Button leftIcon={<RiLogoutBoxRFill />} onClick={() => handleLogout()}>
           Sign out

@@ -9,6 +9,7 @@ import TicketForm from "./TicketForm";
 import TicketsList from "./TicketsList";
 import TicketComponent from "./TicketComponent";
 import HomePage from "./HomePage";
+import ActionsPanel from "./ActionsPanel";
 export default function GridContent({ userDetails }) {
   console.log(userDetails);
   return (
@@ -21,7 +22,7 @@ export default function GridContent({ userDetails }) {
       width="100%"
       margin="0"
       fontWeight="bold"
-      bg="#526D82"
+      backgroundColor="#242424"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
         <Header isLogged={userDetails ? "true" : "false"} />
@@ -35,7 +36,10 @@ export default function GridContent({ userDetails }) {
           <Route path="/users" element={<UsersList />} />
           <Route path="/projects/add" element={<ProjectForm />} />
           <Route path="/projects" element={<ProjectsList />} />
-          <Route path="/tickets/add" element={<TicketForm />} />
+          <Route
+            path="/tickets/add"
+            element={<TicketForm userDetails={userDetails} />}
+          />
           <Route
             path="/tickets"
             element={<TicketsList userDetails={userDetails} />}
@@ -43,6 +47,10 @@ export default function GridContent({ userDetails }) {
           <Route
             path="/tickets/:id"
             element={<TicketComponent userDetails={userDetails} />}
+          />
+          <Route
+            path="/auth/actions"
+            element={<ActionsPanel userDetails={userDetails} />}
           />
         </Routes>
       </GridItem>
