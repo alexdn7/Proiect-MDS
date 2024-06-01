@@ -21,6 +21,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   deleteProject,
   getProjectById,
+  removeUserFromProject,
   updateProject,
 } from "../services/ProjectService";
 import { useEffect, useState } from "react";
@@ -88,6 +89,15 @@ export default function ProjectComponent({ userDetails }) {
     }
   }
 
+  async function handleRemoveUser(userId) {
+    try {
+      const response = await removeUserFromProject(projectId, userId);
+      getAndSetDetails();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Flex width="100%" justifyContent="center" alignContent="center">
       <VStack
@@ -140,7 +150,7 @@ export default function ProjectComponent({ userDetails }) {
                 overflowY="scroll"
               />
               <InputRightAddon paddingX="10px">
-                {String(details.title).length}/1000
+                {String(details.description).length}/1000
               </InputRightAddon>
             </InputGroup>
           </FormControl>
@@ -149,12 +159,12 @@ export default function ProjectComponent({ userDetails }) {
         )}
         <Divider />
         <Text>
-          Manager:{" "}
+          Managed by {""}
           <Link
             to={`/users/${details.managedByUserId}`}
             style={{ textDecoration: "none", color: "limegreen" }}
           >
-            {details.managedByUser.name}
+            {details.managedByUser.name}.
           </Link>
         </Text>
 
@@ -180,7 +190,9 @@ export default function ProjectComponent({ userDetails }) {
                     </Link>
                     {userDetails.role === "MANAGER" ||
                     userDetails.role === "ADMIN" ? (
-                      <Button>Remove</Button>
+                      <Button onClick={() => handleRemoveUser(member.user.id)}>
+                        Remove
+                      </Button>
                     ) : null}
                   </HStack>
                 </Td>

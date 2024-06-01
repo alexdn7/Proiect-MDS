@@ -114,7 +114,7 @@ const updateProject = async (request, response) => {
     const { id } = request.params;
     const { title, description, members } = request.body;
 
-    const updateProject = await prisma.project.update({
+    const updatedProject = await prisma.project.update({
       where: {
         id: id,
       },
@@ -135,7 +135,29 @@ const updateProject = async (request, response) => {
         members: true,
       },
     });
-    response.status(StatusCodes.OK).json(updateProject);
+    response.status(StatusCodes.OK).json(updatedProject);
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+  }
+};
+
+const removeUserFromProject = async (request, response) => {
+  try {
+    const { projectId, userId } = request.params;
+    await prisma.projects_Users.delete({
+      where: {
+        projectId_userId: {
+          projectId: projectId,
+          userId: userId,
+        },
+      },
+    });
+
+    response
+      .status(StatusCodes.OK)
+      .send(
+        `User with ID ${userId} removed succesfully from project ${projectId}!`
+      );
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
   }
@@ -171,5 +193,6 @@ module.exports = {
   getProjectById,
   getProjectMembers,
   updateProject,
+  removeUserFromProject,
   deleteProject,
 };
