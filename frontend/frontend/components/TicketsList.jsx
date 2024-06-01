@@ -218,7 +218,7 @@ export default function TicketsList({ userDetails }) {
               alignContent="space-evenly"
               marginLeft="5%"
               paddingY="2%"
-              borderRadius="20px"
+              borderRadius="15px"
               marginBottom="5%"
             >
               <HStack justifyContent="center">

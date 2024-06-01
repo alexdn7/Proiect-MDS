@@ -10,6 +10,7 @@ import TicketsList from "./TicketsList";
 import TicketComponent from "./TicketComponent";
 import HomePage from "./HomePage";
 import ActionsPanel from "./ActionsPanel";
+import ProjectComponent from "./ProjectComponent";
 export default function GridContent({ userDetails }) {
   console.log(userDetails);
   return (
@@ -42,6 +43,10 @@ export default function GridContent({ userDetails }) {
             element={<ProjectForm userDetails={userDetails} />}
           />
           <Route path="/projects" element={<ProjectsList />} />
+          <Route
+            path="/projects/:projectId"
+            element={<ProjectComponent userDetails={userDetails} />}
+          />
           <Route
             path="/tickets/add"
             element={<TicketForm userDetails={userDetails} />}
