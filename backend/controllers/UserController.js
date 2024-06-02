@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { request, response } = require("express");
 const { StatusCodes } = require("http-status-codes");
+const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 const getAllUsers = async (request, response) => {
@@ -49,6 +50,32 @@ const getUserById = async (request, response) => {
   }
 };
 
+const updateUser = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { name, password } = request.body;
+    const updateDto = { name };
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateDto.password = hashedPassword;
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateDto,
+      },
+    });
+
+    response.status(StatusCodes.OK).json(updatedUser);
+  } catch (error) {
+    response.status(StatusCodes.BAD_GATEWAY).send(error.message);
+  }
+};
+
 const deleteUser = async (request, response) => {
   try {
     const { id } = request.params;
@@ -64,4 +91,4 @@ const deleteUser = async (request, response) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById, deleteUser };
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser };

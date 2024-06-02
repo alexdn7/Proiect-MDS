@@ -15,5 +15,8 @@ export const getAllUsers = () => axios.get(BASE_URL + "/", TOKEN_HEADER);
 export const getUserById = (userId) =>
   axios.get(BASE_URL + `/${userId}`, TOKEN_HEADER);
 
+export const updateUser = (userId, userDto) =>
+  axios.put(BASE_URL + `/${userId}`, userDto, TOKEN_HEADER);
+
 export const deleteUser = (id) =>
   axios.delete(BASE_URL + `/delete/${id}`, TOKEN_HEADER);

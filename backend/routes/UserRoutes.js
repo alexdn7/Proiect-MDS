@@ -3,12 +3,16 @@ const {
   getAllUsers,
   deleteUser,
   getUserById,
+  updateUser,
 } = require("../controllers/UserController");
-const { verifyAuth, verifyAdmin } = require("../middlewares/authorization");
+const { verifyAuth } = require("../middlewares/authorization");
 const router = express.Router();
 
 router.get("/", getAllUsers);
-router.get("/:id", verifyAuth, getUserById);
-router.delete("/delete/:id", verifyAuth, verifyAdmin, deleteUser);
+router
+  .route("/:id")
+  .get(verifyAuth, getUserById)
+  .put(verifyAuth, updateUser)
+  .delete(verifyAuth, deleteUser);
 
 module.exports = router;
