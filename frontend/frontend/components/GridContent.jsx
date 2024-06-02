@@ -11,6 +11,7 @@ import TicketComponent from "./TicketComponent";
 import HomePage from "./HomePage";
 import ActionsPanel from "./ActionsPanel";
 import ProjectComponent from "./ProjectComponent";
+import UserComponent from "./UserComponent";
 export default function GridContent({ userDetails }) {
   console.log(userDetails);
   return (
@@ -23,7 +24,7 @@ export default function GridContent({ userDetails }) {
       width="100%"
       margin="0"
       fontWeight="bold"
-      backgroundColor="#242424"
+      backgroundColor="#404040"
     >
       <GridItem area={"header"} margin="0" position="sticky" top="0">
         <Header
@@ -62,6 +63,10 @@ export default function GridContent({ userDetails }) {
           <Route
             path="/auth/actions"
             element={<ActionsPanel userDetails={userDetails} />}
+          />
+          <Route
+            path="/users/:id"
+            element={<UserComponent userDetails={userDetails} />}
           />
         </Routes>
       </GridItem>

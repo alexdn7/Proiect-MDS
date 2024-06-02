@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { deleteUser, getAllUsers } from "../services/UserService";
 import { getUserInfoFromCookiesToken } from "../utils/TokenUtil";
+import { Link } from "react-router-dom";
 export default function UsersList() {
   const [users, setUsers] = useState([]);
   const userInfo = getUserInfoFromCookiesToken();
@@ -91,7 +92,12 @@ export default function UsersList() {
             </option>
           </select>
         </HStack>
-        <Grid templateColumns={"1fr 1fr 1fr 1fr"} width="93%" gap="2%">
+        <Grid
+          templateColumns="1fr 1fr 1fr"
+          width="93%"
+          gap="2%"
+          minWidth="fit-content"
+        >
           {users.map((user) => (
             <GridItem
               key={user.id}
@@ -107,7 +113,10 @@ export default function UsersList() {
               <VStack>
                 <Text>Actions</Text>
                 <HStack marginBottom="10px">
-                  <Button bg={"green"}>View profile</Button>
+                  <Link to={`/users/${user.id}`}>
+                    <Button bg={"green"}>View profile</Button>
+                  </Link>
+                  
                   {userInfo.role === "ADMIN" ? (
                     <Button
                       bg={"red"}
