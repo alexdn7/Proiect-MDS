@@ -49,14 +49,14 @@ export default function UserComponent({ userDetails }) {
       });
   }
 
-  function handleUpdate() {
+  async function handleUpdate() {
     try {
       const userDto = { ...details, password: passwords.password };
       delete userDto.projects;
 
-      const response = updateUser(id, userDto);
-      setUpdateState(false);
+      await updateUser(id, userDto);
       getAndSetDetails();
+      setUpdateState(false);
     } catch (error) {
       console.error(error);
     }
@@ -124,9 +124,9 @@ export default function UserComponent({ userDetails }) {
               paddingY="2%"
               borderRadius="15px"
             >
-              <TableContainer minWidth="90%" width="fit-content">
-                <Table width="100%" border="2px solid black">
-                  {details.projects.length > 0 ? (
+              {details.projects.length > 0 ? (
+                <TableContainer minWidth="90%" width="fit-content">
+                  <Table width="100%" border="2px solid black">
                     <>
                       <TableCaption placement="top" marginBottom="10px">
                         Member of the following projects
@@ -160,12 +160,11 @@ export default function UserComponent({ userDetails }) {
                         ))}
                       </Tbody>
                     </>
-                  ) : (
-                    "Not assigned to a project yet"
-                  )}
-                </Table>
-              </TableContainer>
-
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Text>Not a member of any project yet.</Text>
+              )}
               <Heading marginBottom="0">Actions</Heading>
               <HStack marginBottom="5px">
                 <Link to="/users">
@@ -174,14 +173,24 @@ export default function UserComponent({ userDetails }) {
                   </Button>
                 </Link>
 
-                {userDetails && userDetails.userId === id ? (
-                  <Button
-                    bg="orange"
-                    rightIcon={<MdEdit />}
-                    onClick={() => setUpdateState(true)}
-                  >
-                    Update account
-                  </Button>
+                {userDetails ? (
+                  userDetails.userId === id ? (
+                    <Button
+                      bg="orange"
+                      rightIcon={<MdEdit />}
+                      onClick={() => setUpdateState(true)}
+                    >
+                      Update account
+                    </Button>
+                  ) : userDetails.role === "ADMIN" ? (
+                    <Button
+                      bg="orange"
+                      rightIcon={<MdEdit />}
+                      onClick={() => setUpdateState(true)}
+                    >
+                      Change role
+                    </Button>
+                  ) : null
                 ) : null}
 
                 {userDetails &&
@@ -193,7 +202,7 @@ export default function UserComponent({ userDetails }) {
               </HStack>
             </VStack>
           </HStack>
-        ) : (
+        ) : userDetails && userDetails.userId === id ? (
           <VStack width="100%">
             <Heading>Change account details</Heading>
 
@@ -278,6 +287,58 @@ export default function UserComponent({ userDetails }) {
                 onClick={() => {
                   setUpdateState(false);
                   setPassword({ password: "", confirmedPassword: "" });
+                  getAndSetDetails();
+                }}
+              >
+                Cancel
+              </Button>
+
+              <Button
+                onClick={() => handleUpdate()}
+                rightIcon={<MdSave />}
+                bg="red"
+              >
+                Save
+              </Button>
+            </HStack>
+          </VStack>
+        ) : (
+          <VStack width="50%" minWidth="fit-content">
+            <Heading>Select a new role</Heading>
+            <Text margin="0">Actual role is {details.role}. </Text>
+            <select
+              placeholder="Select your role"
+              name="role"
+              value={details.role}
+              onChange={(e) => setDetails({ ...details, role: e.target.value })}
+              style={{
+                width: 100 + "%",
+                textAlign: "center",
+                borderRadius: "5px",
+                height: "30px",
+              }}
+            >
+              <option value="" disabled>
+                Select role
+              </option>
+              <option>TESTER</option>
+              <option>DEVELOPER</option>
+              <option>MANAGER</option>
+              <option>ADMIN</option>
+            </select>
+
+            <HStack width="100%" marginTop="20px">
+              <Link to="/users">
+                <Button bg="green" leftIcon={<RiArrowGoBackFill />}>
+                  Back
+                </Button>
+              </Link>
+
+              <Button
+                leftIcon={<MdCancel />}
+                bg="orange"
+                onClick={() => {
+                  setUpdateState(false);
                   getAndSetDetails();
                 }}
               >
