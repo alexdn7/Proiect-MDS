@@ -53,8 +53,8 @@ const getUserById = async (request, response) => {
 const updateUser = async (request, response) => {
   try {
     const { id } = request.params;
-    const { name, password } = request.body;
-    const updateDto = { name };
+    const { name, role, password } = request.body;
+    const updateDto = { name, role };
 
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
