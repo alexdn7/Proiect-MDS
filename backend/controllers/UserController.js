@@ -18,6 +18,37 @@ const getAllUsers = async (request, response) => {
   }
 };
 
+const getUserById = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        id: id,
+      },
+      select: {
+        name: true,
+        email: true,
+        role: true,
+        registeredOn: true,
+        projects: {
+          select: {
+            project: {
+              select: {
+                id: true,
+                title: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    response.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
+  }
+};
+
 const deleteUser = async (request, response) => {
   try {
     const { id } = request.params;
@@ -33,4 +64,4 @@ const deleteUser = async (request, response) => {
   }
 };
 
-module.exports = { getAllUsers, deleteUser };
+module.exports = { getAllUsers, getUserById, deleteUser };

@@ -6,7 +6,6 @@ import { IoTicketSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../src/Header.css";
-import logo from "../assets/icons8-bug-tracking-32.png";
 
 export default function Header({ userDetails }) {
   const navigate = useNavigate();
@@ -37,7 +36,11 @@ export default function Header({ userDetails }) {
         <Link to="/auth/actions">
           <Button leftIcon={<RiAdminFill />}>Actions</Button>
         </Link>
-        <Button leftIcon={<CgProfile />}>Profile</Button>
+
+        <Link to={`/users/${userDetails.userId}`}>
+          <Button leftIcon={<CgProfile />}>Profile</Button>
+        </Link>
+        
         <Button leftIcon={<RiLogoutBoxRFill />} onClick={() => handleLogout()}>
           Sign out
         </Button>
