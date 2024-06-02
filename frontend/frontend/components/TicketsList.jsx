@@ -130,7 +130,7 @@ export default function TicketsList({ userDetails }) {
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "createdByUserId")}
             defaultValue=""
-            style={{ width: 15 + "%" }}
+            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
           >
             <option disabled value="">
               Created by
@@ -144,10 +144,11 @@ export default function TicketsList({ userDetails }) {
               </option>
             ))}
           </select>
+
           <select
             onChange={(e) => handleChange(e, "priority")}
             defaultValue=""
-            style={{ width: 15 + "%" }}
+            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
           >
             <option disabled value="">
               Priority
@@ -162,11 +163,12 @@ export default function TicketsList({ userDetails }) {
               HIGH
             </option>
           </select>
+
           <select
             defaultValue=""
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "assignedToUserId")}
-            style={{ width: 15 + "%" }}
+            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
           >
             <option disabled value="" key="">
               Assigned to
@@ -180,10 +182,11 @@ export default function TicketsList({ userDetails }) {
               </option>
             ))}
           </select>
+
           <select
             defaultValue=""
             onChange={(e) => handleChange(e, "status")}
-            style={{ width: 15 + "%" }}
+            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
           >
             <option disabled value="">
               Status
@@ -220,6 +223,7 @@ export default function TicketsList({ userDetails }) {
               paddingY="2%"
               borderRadius="15px"
               marginBottom="5%"
+              minWidth="fit-content"
             >
               <HStack justifyContent="center">
                 <Heading overflowX="auto scroll">

@@ -64,13 +64,15 @@ export default function LoginComponent() {
     <Flex height="100%" justifyContent="center">
       <VStack
         width="30%"
+        minWidth="fit-content"
         border="2px solid black"
+        borderRadius="15px"
         boxShadow="0px 0px 10px 10px black"
       >
         <Heading>Login</Heading>
         <form onSubmit={handleSubmit} style={{ width: 80 + "%" }}>
           <VStack width="100%">
-            <FormControl isRequired="true" width="80%">
+            <FormControl isRequired="true" width="80%" >
               <FormLabel>Email</FormLabel>
               <Input
                 type="email"
@@ -79,9 +81,13 @@ export default function LoginComponent() {
                   setCredentials({ ...credentials, email: e.target.value });
                 }}
                 width="100%"
+                borderRadius="5px"
+                height="20px"
+                placeholder="Enter your email address"
               ></Input>
             </FormControl>
-            <FormControl isRequired="true" width="80%">
+
+            <FormControl isRequired="true" width="80%" >
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
@@ -94,6 +100,9 @@ export default function LoginComponent() {
                     });
                   }}
                   width="100%"
+                  height="30px"
+                  borderRadius="5px"
+                  placeholder="Enter your password"
                 ></Input>
                 <InputRightAddon>
                   <Button onClick={handleClick}>
@@ -118,7 +127,7 @@ export default function LoginComponent() {
             </Button>
           </VStack>
         </form>
-        <HStack>
+        <HStack margin="0 10px 10px 10px">
           <Text>New here?</Text>
           <Link to="/register">
             <Button>Create an account</Button>

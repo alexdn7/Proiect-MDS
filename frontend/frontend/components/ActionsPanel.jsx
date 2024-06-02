@@ -20,24 +20,25 @@ export default function ActionsPanel({ userDetails }) {
             <HStack>
               {userDetails.role === "TESTER" || userDetails.role === "ADMIN" ? (
                 <Link to="/tickets/add">
-                  <Button>Create a new ticket</Button>
+                  <Button bg="green">Create a new ticket</Button>
                 </Link>
               ) : null}
               <Link to="/tickets">
-                <Button>View all tickets</Button>
+                <Button bg="orange">View all tickets</Button>
               </Link>
 
               {["TESTER", "ADMIN", "DEVELOPER"].includes(userDetails.role) ? (
                 <Link
                   to={
-                    userDetails.role === "TESTER" || userDetails.role === "ADMIN"
+                    userDetails.role === "TESTER" ||
+                    userDetails.role === "ADMIN"
                       ? `/tickets?createdByUserId=${userDetails.userId}`
                       : userDetails.role === "DEVELOPER"
                       ? `/tickets?assignedToUserId=${userDetails.userId}`
                       : null
                   }
                 >
-                  <Button>View my tickets</Button>
+                  <Button bg="darkorange">View my tickets</Button>
                 </Link>
               ) : null}
             </HStack>
@@ -48,24 +49,25 @@ export default function ActionsPanel({ userDetails }) {
               {userDetails.role === "MANAGER" ||
               userDetails.role === "ADMIN" ? (
                 <Link to="/projects/add">
-                  <Button>Create a new project</Button>
+                  <Button bg="green">Create a new project</Button>
                 </Link>
               ) : null}
               <Link to="/projects">
-                <Button>View all projects</Button>
+                <Button bg="orange">View all projects</Button>
               </Link>
               {userDetails.role === "MANAGER" ? (
-                <Button>View my project</Button>
+                <Button bg="darkorange">View my project</Button>
               ) : null}
             </HStack>
           </VStack>
         </HStack>
+        
         <HStack width="90%">
           <VStack width="50%">
             <Heading>Users</Heading>
             <HStack>
               <Link to="/users">
-                <Button>View all users</Button>
+                <Button bg="orange">View all users</Button>
               </Link>
             </HStack>
           </VStack>

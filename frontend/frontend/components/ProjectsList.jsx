@@ -6,6 +6,8 @@ import {
   Heading,
   GridItem,
   Box,
+  Flex,
+  VStack,
 } from "@chakra-ui/react";
 import { deleteProject, getAllProjects } from "../services/ProjectService";
 import { useEffect, useState } from "react";
@@ -37,45 +39,65 @@ export default function ProjectsList() {
     }
   }
   return (
-    <Grid
-      templateColumns="33% 33% 33%"
-      padding="30px"
-      gap="10px"
-      maxWidth="100%"
+    <Flex
+      justifyContent="center"
+      width="100%"
+      height="100%"
+      minHeight="fit-content"
     >
-      {projects.map((project) => (
-        <GridItem
-          padding="1%"
-          backgroundColor="#242424"
-          border="2px solid black"
-          boxShadow="1px 1px 5px 2px black"
-          key={project.id}
-          borderRadius="10px"
+      <VStack
+        width="90%"
+        minWidth="fit-content"
+        border="2px solid black"
+        boxShadow="0px 0px 10px 5px black"
+        borderRadius="15px"
+        alignSelf="center"
+      >
+        <Heading>All projects</Heading>
+        <Grid
+          templateColumns="33% 33% 33%"
+          padding="30px"
+          gap="15px"
+          minWidth="fit-content"
+          width="95%"
         >
-          <Heading>{project.title}</Heading>
-          <Box overflowX="auto scroll">
-            <Text>{project.description}</Text>
-          </Box>
-
-          <Text>
-            Manager:{" "}
-            <Link
-              to={`/users/${project.managedByUserId}`}
-              style={{ textDecoration: "none", color: "white" }}
+          {projects.map((project) => (
+            <GridItem
+              padding="1%"
+              border="2px solid black"
+              boxShadow="5px 5px 5px 5px black"
+              key={project.id}
+              borderRadius="10px"
             >
-              {project.managedByUser.name}
-            </Link>
-          </Text>
-          <HStack justifyContent={"center"} marginTop="2">
-            <Link to={`/projects/${project.id}`}>
-              <Button size="sm">View details</Button>
-            </Link>
-            <Button size="sm" onClick={() => handleDeleteProject(project.id)}>
-              Delete
-            </Button>
-          </HStack>
-        </GridItem>
-      ))}
-    </Grid>
+              <Heading>{project.title}</Heading>
+              <Box overflowX="auto scroll">
+                <Text>{project.description}</Text>
+              </Box>
+
+              <Text>
+                Manager:{" "}
+                <Link
+                  to={`/users/${project.managedByUserId}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  {project.managedByUser.name}
+                </Link>
+              </Text>
+              <HStack justifyContent={"center"} marginTop="2">
+                <Link to={`/projects/${project.id}`}>
+                  <Button size="sm">View details</Button>
+                </Link>
+                <Button
+                  size="sm"
+                  onClick={() => handleDeleteProject(project.id)}
+                >
+                  Delete
+                </Button>
+              </HStack>
+            </GridItem>
+          ))}
+        </Grid>
+      </VStack>
+    </Flex>
   );
 }

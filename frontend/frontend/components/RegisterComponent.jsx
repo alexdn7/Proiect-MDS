@@ -12,6 +12,7 @@ import {
   Text,
   Button,
   Heading,
+  Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { register } from "../services/AuthService";
@@ -25,6 +26,7 @@ export default function RegisterComponent() {
     role: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -36,10 +38,15 @@ export default function RegisterComponent() {
       if (!token) {
         throw new Error("Token not found");
       }
+
       Cookies.set("token", token, {
         expires: 45 / (24 * 60),
         secure: true,
       });
+
+      if (response.status === 201) {
+        navigate("/home");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -49,12 +56,14 @@ export default function RegisterComponent() {
     <Flex justifyContent="center" width="100%" height="100%">
       <VStack
         width="30%"
+        minWidth="fit-content"
         border="2px solid black"
         boxShadow="0px 0px 10px 10px black"
+        borderRadius="15px"
       >
         <Heading>Register on our page</Heading>
         <form onSubmit={handleSubmit} style={{ width: 80 + "%" }}>
-          <VStack width="90%">
+          <VStack width="90%" gap="15px">
             <FormControl isRequired="true" width="100%">
               <FormLabel>Name</FormLabel>
               <Input
@@ -64,8 +73,12 @@ export default function RegisterComponent() {
                   setUserDetails({ ...userDetails, name: e.target.value })
                 }
                 width="100%"
+                borderRadius="5px"
+                height="20px"
+                placeholder="Enter your full name"
               />
             </FormControl>
+
             <FormControl isRequired="true" width="100%">
               <FormLabel>Email</FormLabel>
               <Input
@@ -75,24 +88,39 @@ export default function RegisterComponent() {
                   setUserDetails({ ...userDetails, email: e.target.value })
                 }
                 width="100%"
+                borderRadius="5px"
+                height="20px"
+                placeholder="Enter your email address"
               />
             </FormControl>
+
             <FormControl isRequired="true" width="100%">
-              <FormLabel>Role</FormLabel>
-              <select
-                placeholder="Select your role"
-                name="role"
-                value={userDetails.role}
-                onChange={(e) =>
-                  setUserDetails({ ...userDetails, role: e.target.value })
-                }
-                style={{ width: 100 + "%", textAlign: "center" }}
-              >
-                <option>TESTER</option>
-                <option>DEVELOPER</option>
-                <option>MANAGER</option>
-              </select>
+              <HStack width="100%">
+                <FormLabel>Role </FormLabel>
+                <Spacer />
+                <select
+                  placeholder="Select your role"
+                  name="role"
+                  value={userDetails.role}
+                  onChange={(e) =>
+                    setUserDetails({ ...userDetails, role: e.target.value })
+                  }
+                  style={{
+                    width: 80 + "%",
+                    textAlign: "center",
+                    borderRadius: 5 + "px",
+                  }}
+                >
+                  <option value="" disabled>
+                    Select your role
+                  </option>
+                  <option>TESTER</option>
+                  <option>DEVELOPER</option>
+                  <option>MANAGER</option>
+                </select>
+              </HStack>
             </FormControl>
+
             <FormControl isRequired="true " width="100%">
               <FormLabel>Password</FormLabel>
               <Input
@@ -105,6 +133,7 @@ export default function RegisterComponent() {
                   })
                 }
                 width="100%"
+                borderRadius="5px"
               />
             </FormControl>
             <Button
@@ -123,10 +152,10 @@ export default function RegisterComponent() {
             </Button>
           </VStack>
         </form>
-        <HStack>
+        <HStack minWidth="fit-content" margin="0 10px 5px 10px">
           <Text>Already have an account?</Text>
           <Link to="/login">
-            <Button marginTop="10px">Login</Button>
+            <Button>Login</Button>
           </Link>
         </HStack>
       </VStack>

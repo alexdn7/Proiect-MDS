@@ -16,7 +16,7 @@ export default function Header({ userDetails }) {
   }
 
   return (
-    <HStack padding="30px" height="full" width="auto full">
+    <HStack padding="30px" height="fit-content" width="auto full">
       <Spacer />
       <HStack>
         <Link to="/tickets">

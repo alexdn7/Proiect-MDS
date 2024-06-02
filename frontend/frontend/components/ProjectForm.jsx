@@ -43,8 +43,6 @@ export default function ProjectForm({ userDetails }) {
     try {
       const response = await createProject(details);
       if (response.status == 201) {
-        // return navigate("/projects");
-        console.log("fac ceva aici");
         navigate("/projects");
       }
     } catch (error) {
@@ -74,14 +72,14 @@ export default function ProjectForm({ userDetails }) {
       <VStack
         width="30%"
         border="1.5px solid black"
-        borderRadius="5px"
+        borderRadius="15px"
         padding="2%"
         boxShadow="0px 0px 10px 10px black"
         justifyContent="center"
         zIndex="1"
       >
         <Heading>Add a new project</Heading>
-        <form style={{ width: 100 + "%", padding: 10 }} onSubmit={handleSubmit}>
+        <form style={{ width: 95 + "%", padding: 10 }} onSubmit={handleSubmit}>
           <FormControl isRequired="true" marginBottom="5px">
             <FormLabel htmlFor="titleInput">Title</FormLabel>
             <InputGroup>
@@ -94,9 +92,11 @@ export default function ProjectForm({ userDetails }) {
                 onChange={(e) =>
                   setDetails({ ...details, title: e.target.value })
                 }
+                borderRadius="5px"
               />
             </InputGroup>
           </FormControl>
+
           <FormControl isRequired="true" marginBottom="5px">
             <FormLabel>Description</FormLabel>
             <InputGroup>
@@ -108,9 +108,11 @@ export default function ProjectForm({ userDetails }) {
                 onChange={(e) =>
                   setDetails({ ...details, description: e.target.value })
                 }
+                borderRadius="5px"
               />
             </InputGroup>
           </FormControl>
+
           <FormControl isRequired={true} marginBottom="5px">
             <FormLabel htmlFor="selectManager">Manager</FormLabel>
             <InputGroup>
@@ -124,7 +126,11 @@ export default function ProjectForm({ userDetails }) {
                     managedByUserId: e.target.value,
                   });
                 }}
-                style={{ width: 100 + "%" }}
+                style={{
+                  width: 100 + "%",
+                  borderRadius: 5 + "px",
+                  height: "30px",
+                }}
               >
                 {users
                   .filter((user) => user.role === "MANAGER")
@@ -143,12 +149,13 @@ export default function ProjectForm({ userDetails }) {
               </select>
             </InputGroup>
           </FormControl>
+
           <FormControl isRequired={true} marginBottom="10px">
             <FormLabel htmlFor="selectMembers">Select Members</FormLabel>
             <InputGroup>
               <select
-                size="3"
-                style={{ width: 100 + "%" }}
+                size="4"
+                style={{ width: 100 + "%", borderRadius: 5 + "px" }}
                 id="selectMembers"
                 multiple={true}
                 onChange={(e) =>
