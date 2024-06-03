@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 export default function NotAuthenticated() {
   return (
-    <Flex height="100vh" justifyContent="center">
+    <Flex height="100%" justifyContent="center" minHeight="fit-content">
       <VStack
         alignSelf="center"
         border="1px solid black"
         boxShadow="0px 0px 10px 10px black"
         zIndex="1"
         padding="50px"
+        borderRadius="20px"
       >
         <Heading>You must be logged in to acces this page!</Heading>
         <HStack>

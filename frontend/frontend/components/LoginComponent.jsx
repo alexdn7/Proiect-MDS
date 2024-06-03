@@ -16,13 +16,15 @@ import {
   Heading,
   InputRightAddon,
 } from "@chakra-ui/react";
-import { login } from "../services/AuthService";
+import { loginUser } from "../services/AuthService";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { BiSolidHide, BiShow } from "react-icons/bi";
+import { useAuth } from "./AuthProvider";
 
 export default function LoginComponent() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -35,7 +37,7 @@ export default function LoginComponent() {
     try {
       setError(false);
       const { email, password } = credentials;
-      const response = await login({ email, password });
+      const response = await loginUser({ email, password });
       const token = response.data.token;
 
       if (!token) {
@@ -47,6 +49,8 @@ export default function LoginComponent() {
         secure: true,
       });
 
+      login(token);
+      
       if (response.status == 200) {
         navigate("/home");
       }
@@ -72,7 +76,7 @@ export default function LoginComponent() {
         <Heading>Login</Heading>
         <form onSubmit={handleSubmit} style={{ width: 80 + "%" }}>
           <VStack width="100%">
-            <FormControl isRequired="true" width="80%" >
+            <FormControl isRequired="true" width="80%">
               <FormLabel>Email</FormLabel>
               <Input
                 type="email"
@@ -87,7 +91,7 @@ export default function LoginComponent() {
               ></Input>
             </FormControl>
 
-            <FormControl isRequired="true" width="80%" >
+            <FormControl isRequired="true" width="80%">
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
