@@ -108,6 +108,7 @@ export default function ProjectComponent({ userDetails }) {
         marginTop="50px"
       >
         <Heading>Project with ID {details.id}.</Heading>
+        <Divider border="2px solid black" />
         {updateState ? (
           <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
@@ -132,7 +133,8 @@ export default function ProjectComponent({ userDetails }) {
         ) : (
           <h1>{details.title}</h1>
         )}
-        <h2> ~~~ Description ~~~ </h2>
+        <Divider border="2px solid black" />
+        <h2> Description </h2>
         {updateState ? (
           <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
@@ -157,7 +159,7 @@ export default function ProjectComponent({ userDetails }) {
         ) : (
           <Text>{details.description}</Text>
         )}
-        <Divider />
+        <Divider border="2px solid black" />
         <Text>
           Managed by {""}
           <Link
@@ -257,7 +259,9 @@ export default function ProjectComponent({ userDetails }) {
           <Text>Actions</Text>
           <HStack width="90%">
             <Link to="/projects">
-              <Button leftIcon={<IoMdArrowRoundBack />}>Back</Button>
+              <Button leftIcon={<IoMdArrowRoundBack />} bg="green">
+                Back
+              </Button>
             </Link>
             {userDetails.role === "ADMIN" || userDetails.role === "MANAGER" ? (
               <>
@@ -285,6 +289,7 @@ export default function ProjectComponent({ userDetails }) {
                       setUpdateState(true);
                     }}
                     rightIcon={<MdEdit />}
+                    bg="orange"
                   >
                     Update
                   </Button>
@@ -292,6 +297,7 @@ export default function ProjectComponent({ userDetails }) {
                 <Button
                   onClick={() => handleDeleteProject(details.id)}
                   rightIcon={<MdDelete />}
+                  bg="red"
                 >
                   Delete
                 </Button>

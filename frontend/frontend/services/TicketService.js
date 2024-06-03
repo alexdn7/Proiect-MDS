@@ -1,6 +1,14 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const BASE_URL = "http://localhost:3000/tickets";
+const token = Cookies.get("token");
+const TOKEN_HEADER = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
 
 export const createTicket = (ticketDto) => axios.post(BASE_URL, ticketDto);
 
@@ -9,10 +17,14 @@ export const getAllTickets = (queryParams) =>
     params: { ...queryParams },
   });
 
-export const getTicketById = (ticketId) => axios.get(BASE_URL + `/${ticketId}`);
+export const getTicketsCount = () =>
+  axios.get(BASE_URL + "/count", TOKEN_HEADER);
+
+export const getTicketById = (ticketId) =>
+  axios.get(BASE_URL + `/${ticketId}`, TOKEN_HEADER);
 
 export const updateTicket = (ticketId, ticketDto) =>
-  axios.patch(BASE_URL + `/${ticketId}`, ticketDto);
+  axios.patch(BASE_URL + `/${ticketId}`, ticketDto, TOKEN_HEADER);
 
 export const deleteTicket = (ticketId) =>
-  axios.delete(BASE_URL + `/${ticketId}`);
+  axios.delete(BASE_URL + `/${ticketId}`, TOKEN_HEADER);

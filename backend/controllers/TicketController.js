@@ -99,8 +99,37 @@ const getAllTickets = async (request, response) => {
 
 const getTicketsCount = async (request, response) => {
   try {
-    const count = await prisma.ticket.count();
-    response.status(StatusCodes.OK).json({ totalTickets: count });
+    const statuses = ["CREATED", "IN_PROGRESS", "SOLVED"];
+    const priorities = ["LOW", "MEDIUM", "HIGH"];
+
+    const statusCounts = await Promise.all(
+      statuses.map(async (status) => {
+        const count = await prisma.ticket.count({
+          where: {
+            status: status,
+          },
+        });
+        return { status: status, count: count };
+      })
+    );
+
+    const priorityCounts = await Promise.all(
+      priorities.map(async (priority) => {
+        const count = await prisma.ticket.count({
+          where: {
+            priority: priority,
+          },
+        });
+        return { priority: priority, count: count };
+      })
+    );
+
+    const counts = [statusCounts, priorityCounts];
+    counts.push({
+      total: statusCounts.map((count) => count.count).reduce((a, b) => a + b),
+    });
+
+    response.status(StatusCodes.OK).json({ counts });
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }

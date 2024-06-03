@@ -94,7 +94,7 @@ export default function TicketComponent({ userDetails }) {
   }
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" height="100%" minHeight="fit-content"> 
       <VStack
         width="60%"
         border="1px solid black"
@@ -102,6 +102,7 @@ export default function TicketComponent({ userDetails }) {
         zIndex="1"
         marginTop="30px"
         paddingY="10px"
+        alignSelf="center"
       >
         {updateState &&
         (userDetails.role === "ADMIN" ||
@@ -129,7 +130,7 @@ export default function TicketComponent({ userDetails }) {
         ) : (
           <Heading size="lg">{details.title}</Heading>
         )}
-        <Divider />
+        <Divider border="2px solid black"/>
         <VStack alignItems="flex-start" width="90%">
           <Text textDecoration="none">
             Created by{" "}
@@ -197,7 +198,7 @@ export default function TicketComponent({ userDetails }) {
           </Text>
         </VStack>
 
-        <Divider bg="black" />
+        <Divider border="2px solid black" />
         {updateState &&
         (userDetails.role === "ADMIN" ||
           (userDetails.role === "TESTER" &&
@@ -227,7 +228,7 @@ export default function TicketComponent({ userDetails }) {
             <h3>{details.description}</h3>
           </Box>
         )}
-        <Divider bg="black" />
+        <Divider border="2px solid black" />
         <HStack width="90%">
           {updateState &&
           (userDetails.role === "ADMIN" ||

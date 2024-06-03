@@ -7,21 +7,25 @@ const {
   getProjectMembers,
   updateProject,
   removeUserFromProject,
+  getProjectsCount,
 } = require("../controllers/ProjectController");
+const { verifyAuth } = require("../middlewares/authorization");
 const router = express.Router();
 
-router.route("/")
-  .post(createProject)
-  .get(getAllProjects);
+router
+  .route("/")
+  .post(verifyAuth, createProject)
+  .get(verifyAuth, getAllProjects);
 
-router.get("/members/:id", getProjectMembers);
+router.get("/count", verifyAuth, getProjectsCount);
+router.get("/members/:id", verifyAuth, getProjectMembers);
 
-router.patch("/:projectId/:userId", removeUserFromProject);
+router.patch("/:projectId/:userId", verifyAuth, removeUserFromProject);
 
 router
   .route("/:id")
-  .get(getProjectById)
-  .patch(updateProject)
-  .delete(deleteProject);
+  .get(verifyAuth, getProjectById)
+  .patch(verifyAuth, updateProject)
+  .delete(verifyAuth, deleteProject);
 
 module.exports = router;

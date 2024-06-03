@@ -12,6 +12,7 @@ import {
 import { deleteProject, getAllProjects } from "../services/ProjectService";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaTrashCan } from "react-icons/fa6";
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState([]);
@@ -86,11 +87,15 @@ export default function ProjectsList() {
                 </Text>
                 <HStack justifyContent={"center"} marginTop="2">
                   <Link to={`/projects/${project.id}`}>
-                    <Button size="sm">View details</Button>
+                    <Button size="sm" bg="green">
+                      View details
+                    </Button>
                   </Link>
                   <Button
                     size="sm"
                     onClick={() => handleDeleteProject(project.id)}
+                    leftIcon={<FaTrashCan />}
+                    bg="red"
                   >
                     Delete
                   </Button>

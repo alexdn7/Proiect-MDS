@@ -9,8 +9,8 @@ const {
 const { verifyAuth } = require("../middlewares/authorization");
 const router = express.Router();
 
-router.get("/", getAllUsers);
-router.get("/count", getUsersCount);
+router.get("/", verifyAuth, getAllUsers);
+router.get("/count", verifyAuth, getUsersCount);
 router
   .route("/:id")
   .get(verifyAuth, getUserById)

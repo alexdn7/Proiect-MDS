@@ -86,8 +86,17 @@ const getProjectById = async (request, response) => {
         .status(StatusCodes.BAD_REQUEST)
         .json(`Project with given ID doesn't exist!`);
     } else {
-      response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+      response.status(StatusCodes.BAD_REQUEST).send(error.message);
     }
+  }
+};
+
+const getProjectsCount = async (request, response) => {
+  try {
+    const count = await prisma.project.count();
+    response.status(StatusCodes.OK).json({ total: count });
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }
 };
 
@@ -191,6 +200,7 @@ module.exports = {
   createProject,
   getAllProjects,
   getProjectById,
+  getProjectsCount,
   getProjectMembers,
   updateProject,
   removeUserFromProject,

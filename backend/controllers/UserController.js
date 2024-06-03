@@ -19,8 +19,24 @@ const getAllUsers = async (request, response) => {
 
 const getUsersCount = async (request, response) => {
   try {
-    const count = await prisma.user.count();
-    response.status(StatusCodes.OK).json({ totalUsers: count });
+    const roles = ["ADMIN", "TESTER", "DEVELOPER", "MANAGER"];
+
+    const counts = await Promise.all(
+      roles.map(async (role) => {
+        const count = await prisma.user.count({
+          where: {
+            role: role,
+          },
+        });
+        return { role: role, count: count };
+      })
+    );
+
+    counts.push({
+      total: counts.map((count) => count.count).reduce((a, b) => a + b),
+    });
+
+    response.status(StatusCodes.OK).json({ counts });
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }
