@@ -21,6 +21,13 @@ export default function TicketsList({ userDetails }) {
   const [filteringOptions, setFilteringOptions] = useState({});
   const [users, setUsers] = useState([]);
   const queryOption = useLocation().search;
+  const selectStyle = {
+    width: "15%",
+    minWidth: "fit-content",
+    borderRadius: "20px",
+    height: "25px",
+    textAlign: "center",
+  };
 
   useEffect(() => {
     getAndSetTickets();
@@ -130,7 +137,9 @@ export default function TicketsList({ userDetails }) {
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "createdByUserId")}
             defaultValue=""
-            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
+            style={{
+              ...selectStyle,
+            }}
           >
             <option disabled value="">
               Created by
@@ -138,17 +147,19 @@ export default function TicketsList({ userDetails }) {
             {users.length === 0 ? (
               <option disabled>There are no users, try again!</option>
             ) : null}
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {users
+              .filter((user) => user.role === "ADMIN" || user.role === "TESTER")
+              .map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
           </select>
 
           <select
             onChange={(e) => handleChange(e, "priority")}
             defaultValue=""
-            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
+            style={{ ...selectStyle }}
           >
             <option disabled value="">
               Priority
@@ -168,7 +179,7 @@ export default function TicketsList({ userDetails }) {
             defaultValue=""
             onClick={() => getAndSetUsers()}
             onChange={(e) => handleChange(e, "assignedToUserId")}
-            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
+            style={{ ...selectStyle }}
           >
             <option disabled value="" key="">
               Assigned to
@@ -176,17 +187,21 @@ export default function TicketsList({ userDetails }) {
             {users.length === 0 ? (
               <option disabled>There are no users, try again!</option>
             ) : null}
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {users
+              .filter(
+                (user) => user.role === "ADMIN" || user.role === "DEVELOPER"
+              )
+              .map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
           </select>
 
           <select
             defaultValue=""
             onChange={(e) => handleChange(e, "status")}
-            style={{ width: 15 + "%", borderRadius: "5px", height: "25px" }}
+            style={{ ...selectStyle }}
           >
             <option disabled value="">
               Status

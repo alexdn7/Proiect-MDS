@@ -46,7 +46,7 @@ export default function ProjectsList() {
       minHeight="fit-content"
     >
       <VStack
-        width="90%"
+        width={projects.length > 0 ? "90%" : "40%"}
         minWidth="fit-content"
         border="2px solid black"
         boxShadow="0px 0px 10px 5px black"
@@ -54,49 +54,68 @@ export default function ProjectsList() {
         alignSelf="center"
       >
         <Heading>All projects</Heading>
-        <Grid
-          templateColumns="33% 33% 33%"
-          padding="30px"
-          gap="15px"
-          minWidth="fit-content"
-          width="95%"
-        >
-          {projects.map((project) => (
-            <GridItem
-              padding="1%"
-              border="2px solid black"
-              boxShadow="5px 5px 5px 5px black"
-              key={project.id}
-              borderRadius="10px"
-            >
-              <Heading>{project.title}</Heading>
-              <Box overflowX="auto scroll">
-                <Text>{project.description}</Text>
-              </Box>
+        {projects.length > 0 ? (
+          <Grid
+            templateColumns="33% 33% 33%"
+            padding="30px"
+            gap="15px"
+            minWidth="fit-content"
+            width="95%"
+          >
+            {projects.map((project) => (
+              <GridItem
+                padding="1%"
+                border="2px solid black"
+                boxShadow="5px 5px 5px 5px black"
+                key={project.id}
+                borderRadius="10px"
+              >
+                <Heading>{project.title}</Heading>
+                <Box overflowX="auto scroll">
+                  <Text>{project.description}</Text>
+                </Box>
 
-              <Text>
-                Manager:{" "}
-                <Link
-                  to={`/users/${project.managedByUserId}`}
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  {project.managedByUser.name}
-                </Link>
-              </Text>
-              <HStack justifyContent={"center"} marginTop="2">
-                <Link to={`/projects/${project.id}`}>
-                  <Button size="sm">View details</Button>
-                </Link>
-                <Button
-                  size="sm"
-                  onClick={() => handleDeleteProject(project.id)}
-                >
-                  Delete
+                <Text>
+                  Manager:{" "}
+                  <Link
+                    to={`/users/${project.managedByUserId}`}
+                    style={{ textDecoration: "none", color: "white" }}
+                  >
+                    {project.managedByUser.name}
+                  </Link>
+                </Text>
+                <HStack justifyContent={"center"} marginTop="2">
+                  <Link to={`/projects/${project.id}`}>
+                    <Button size="sm">View details</Button>
+                  </Link>
+                  <Button
+                    size="sm"
+                    onClick={() => handleDeleteProject(project.id)}
+                  >
+                    Delete
+                  </Button>
+                </HStack>
+              </GridItem>
+            ))}
+          </Grid>
+        ) : (
+          <VStack>
+            <Text>The are no projects added.</Text>
+            <HStack>
+              <Link to="/auth/actions">
+                <Button bg="green" marginBottom="10px">
+                  Go back
                 </Button>
-              </HStack>
-            </GridItem>
-          ))}
-        </Grid>
+              </Link>
+
+              <Link to="/projects/add">
+                <Button bg="orange" marginBottom="10px">
+                  Add
+                </Button>
+              </Link>
+            </HStack>
+          </VStack>
+        )}
       </VStack>
     </Flex>
   );

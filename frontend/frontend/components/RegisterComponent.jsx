@@ -26,6 +26,12 @@ export default function RegisterComponent() {
     role: "",
     password: "",
   });
+
+  const inputStyle = {
+    width: "100%",
+    borderRadius: "5px",
+    height: "30px",
+  };
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -72,10 +78,8 @@ export default function RegisterComponent() {
                 onChange={(e) =>
                   setUserDetails({ ...userDetails, name: e.target.value })
                 }
-                width="100%"
-                borderRadius="5px"
-                height="20px"
                 placeholder="Enter your full name"
+                {...inputStyle}
               />
             </FormControl>
 
@@ -87,10 +91,8 @@ export default function RegisterComponent() {
                 onChange={(e) =>
                   setUserDetails({ ...userDetails, email: e.target.value })
                 }
-                width="100%"
-                borderRadius="5px"
-                height="20px"
                 placeholder="Enter your email address"
+                {...inputStyle}
               />
             </FormControl>
 

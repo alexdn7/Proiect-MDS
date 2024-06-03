@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, Heading, VStack } from "@chakra-ui/react";
+import { Button, Divider, Flex, HStack, Heading, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function ActionsPanel({ userDetails }) {

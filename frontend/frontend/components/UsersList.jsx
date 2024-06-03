@@ -73,7 +73,12 @@ export default function UsersList() {
           <select
             // onChange={(e) => handleChange(e, "priority")}
             defaultValue=""
-            style={{ width: 15 + "%" }}
+            style={{
+              width: 15 + "%",
+              borderRadius: "20px",
+              height: "25px",
+              textAlign: "center",
+            }}
           >
             <option disabled value="">
               Role
@@ -106,17 +111,31 @@ export default function UsersList() {
               borderRadius="20px"
               marginBottom="5%"
             >
-              <Heading>{user.name}</Heading>
+              <Heading fontFamily="halvetica">{user.name}</Heading>
               <Text>{user.email}</Text>
-              <Text>{user.role}</Text>
+              <Text
+                textColor={
+                  user.role === "ADMIN"
+                    ? "red"
+                    : user.role === "MANAGER"
+                    ? "darkorange"
+                    : user.role === "TESTER"
+                    ? "orange"
+                    : "green"
+                }
+                fontFamily="halvetica"
+                textShadow="5px 5px 5px black"
+              >
+                {user.role}
+              </Text>
 
               <VStack>
-                <Text>Actions</Text>
+                <Text margin="0">Actions</Text>
                 <HStack marginBottom="10px">
                   <Link to={`/users/${user.id}`}>
                     <Button bg={"green"}>View profile</Button>
                   </Link>
-                  
+
                   {userInfo.role === "ADMIN" ? (
                     <Button
                       bg={"red"}
