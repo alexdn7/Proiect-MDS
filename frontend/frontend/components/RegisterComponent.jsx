@@ -1,13 +1,9 @@
 import {
   Flex,
-  Center,
-  Card,
-  CardBody,
   VStack,
   FormControl,
   FormLabel,
   Input,
-  Select,
   HStack,
   Text,
   Button,
@@ -18,8 +14,10 @@ import { useState } from "react";
 import { register } from "../services/AuthService";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useAuth } from "./AuthProvider";
 
 export default function RegisterComponent() {
+  const { login } = useAuth();
   const [userDetails, setUserDetails] = useState({
     name: "",
     email: "",
@@ -49,6 +47,8 @@ export default function RegisterComponent() {
         expires: 45 / (24 * 60),
         secure: true,
       });
+
+      login(token);
 
       if (response.status === 201) {
         navigate("/home");

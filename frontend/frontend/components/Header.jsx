@@ -6,11 +6,14 @@ import { IoTicketSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../src/Header.css";
+import { useAuth } from "./AuthProvider";
 
 export default function Header({ userDetails }) {
   const navigate = useNavigate();
+  const {logout} = useAuth();
 
   function handleLogout() {
+    logout();
     Cookies.remove("token");
     navigate("/home");
   }
