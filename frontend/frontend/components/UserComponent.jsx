@@ -19,11 +19,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { getUserById, updateUser } from "../services/UserService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteUser, getUserById, updateUser } from "../services/UserService";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdCancel, MdEdit, MdEmail, MdSave } from "react-icons/md";
 import { RiArrowGoBackFill } from "react-icons/ri";
+import { useAuth } from "./AuthProvider";
 
 export default function UserComponent({ userDetails }) {
   const { id } = useParams();
@@ -33,6 +34,8 @@ export default function UserComponent({ userDetails }) {
     confirmedPassword: "",
   });
   const [details, setDetails] = useState([]);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAndSetDetails();
@@ -57,6 +60,24 @@ export default function UserComponent({ userDetails }) {
       await updateUser(id, userDto);
       getAndSetDetails();
       setUpdateState(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      const response = await deleteUser(id);
+
+      if (response.status == 200) {
+        if (userDetails.role === "ADMIN") {
+          navigate("/users");
+        } else {
+          logout();
+          Cookies.remove("token");
+          navigate("/home");
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -203,7 +224,11 @@ export default function UserComponent({ userDetails }) {
 
                 {userDetails &&
                 (userDetails.userId === id || userDetails.role === "ADMIN") ? (
-                  <Button bg="red" leftIcon={<FaTrashCan />}>
+                  <Button
+                    bg="red"
+                    leftIcon={<FaTrashCan />}
+                    onClick={() => handleDelete()}
+                  >
                     Delete {userDetails.userId === id ? "account" : "user"}
                   </Button>
                 ) : null}

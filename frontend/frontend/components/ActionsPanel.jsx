@@ -1,4 +1,11 @@
-import { Button, Divider, Flex, HStack, Heading, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  Flex,
+  HStack,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function ActionsPanel({ userDetails }) {
@@ -55,13 +62,10 @@ export default function ActionsPanel({ userDetails }) {
               <Link to="/projects">
                 <Button bg="orange">View all projects</Button>
               </Link>
-              {userDetails.role === "MANAGER" ? (
-                <Button bg="darkorange">View my project</Button>
-              ) : null}
             </HStack>
           </VStack>
         </HStack>
-        
+
         <HStack width="90%">
           <VStack width="50%">
             <Heading>Users</Heading>

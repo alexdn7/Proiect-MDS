@@ -21,4 +21,4 @@ export const updateUser = (userId, userDto) =>
   axios.put(BASE_URL + `/${userId}`, userDto, TOKEN_HEADER);
 
 export const deleteUser = (id) =>
-  axios.delete(BASE_URL + `/delete/${id}`, TOKEN_HEADER);
+  axios.delete(BASE_URL + `/${id}`, TOKEN_HEADER);

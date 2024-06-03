@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { deleteUser, getAllUsers } from "../services/UserService";
 import { getUserInfoFromCookiesToken } from "../utils/TokenUtil";
 import { Link } from "react-router-dom";
+import { FaTrashCan } from "react-icons/fa6";
 export default function UsersList() {
   const [users, setUsers] = useState([]);
   const userInfo = getUserInfoFromCookiesToken();
@@ -47,14 +48,15 @@ export default function UsersList() {
   }
 
   return (
-    <Flex justifyContent="center" width="100%" height="auto">
+    <Flex justifyContent="center" width="100%">
       <VStack
         width="93%"
-        height="auto full"
+        height="fit-content"
+        minHeight="fit-content"
         justifyContent="center"
         border="2px solid black"
         boxShadow="0px 0px 10px 5px black"
-        paddingY="1%"
+        paddingBottom="5%"
         marginTop="3%"
         borderRadius="20px"
       >
@@ -111,7 +113,9 @@ export default function UsersList() {
               borderRadius="20px"
               marginBottom="5%"
             >
-              <Heading fontFamily="halvetica">{user.name}</Heading>
+              <Heading fontFamily="halvetica" textShadow="5px 5px 5px black">
+                {user.name}
+              </Heading>
               <Text>{user.email}</Text>
               <Text
                 textColor={
@@ -140,6 +144,7 @@ export default function UsersList() {
                     <Button
                       bg={"red"}
                       onClick={() => handleDeleteUser(user.id)}
+                      leftIcon={<FaTrashCan />}
                     >
                       Delete user
                     </Button>
