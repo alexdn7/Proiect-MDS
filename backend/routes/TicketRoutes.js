@@ -7,14 +7,15 @@ const {
   deleteTicket,
   getTicketsCount,
 } = require("../controllers/TicketController");
+const { verifyAuth } = require("../middlewares/authorization");
 const router = express.Router();
 
-router.route("/").post(createTicket).get(getAllTickets);
-router.get("/count", getTicketsCount);
+router.route("/").post(verifyAuth, createTicket).get(verifyAuth, getAllTickets);
+router.get("/count", verifyAuth, getTicketsCount);
 router
   .route("/:id")
-  .get(getTicketById)
-  .patch(updateTicket)
-  .delete(deleteTicket);
+  .get(verifyAuth, getTicketById)
+  .patch(verifyAuth, updateTicket)
+  .delete(verifyAuth, deleteTicket);
 
 module.exports = router;

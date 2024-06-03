@@ -20,6 +20,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* If the user is authenticated, he will access the website. Otherwise,
+         for every request (excepting login, request) he will be automatically redirectioned to NotAuthenticatedPage */}
         {token ? (
           <Route path="*" element={<GridContent userDetails={userDetails} />} />
         ) : (

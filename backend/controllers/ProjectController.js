@@ -186,6 +186,8 @@ const deleteProject = async (request, response) => {
       .status(StatusCodes.OK)
       .json(`Project with ID ${deletedProject.id} was successfully deleted!`);
   } catch (error) {
+
+    // In order to give explicit errors, I compared the error code to P2025 (prisma error for record not found);
     if (error.code === "P2025") {
       response
         .status(StatusCodes.BAD_REQUEST)

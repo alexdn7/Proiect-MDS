@@ -21,6 +21,8 @@ const getUsersCount = async (request, response) => {
   try {
     const roles = ["ADMIN", "TESTER", "DEVELOPER", "MANAGER"];
 
+    // I want to know the total number and the number of users grouped per role.
+    // So, I have to count for every role and append in a JSON.
     const counts = await Promise.all(
       roles.map(async (role) => {
         const count = await prisma.user.count({
