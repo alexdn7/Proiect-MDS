@@ -91,11 +91,19 @@ export default function UserComponent({ userDetails }) {
             <VStack minWidth="fit-content" width="40%" borderRadius="15px">
               <Avatar />
               <VStack width="100%" maxWidth="fit-content">
-                <h1 style={{ margin: 0, fontFamily: "halvetica" }}>
+                <h1
+                  style={{
+                    margin: 0,
+                    fontFamily: "halvetica",
+                    textShadow: "5px 5px 5px black",
+                  }}
+                >
                   {details.name}
                 </h1>
                 <Heading
                   margin="0"
+                  fontFamily="halvetica"
+                  textShadow="5px 5px 5px black"
                   color={details.role === "ADMIN" ? "red" : "orange"}
                 >
                   {details.role}

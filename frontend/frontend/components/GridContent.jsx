@@ -13,7 +13,6 @@ import ActionsPanel from "./ActionsPanel";
 import ProjectComponent from "./ProjectComponent";
 import UserComponent from "./UserComponent";
 export default function GridContent({ userDetails }) {
-  console.log(userDetails);
   return (
     <Grid
       templateAreas={`"header"
@@ -36,7 +35,7 @@ export default function GridContent({ userDetails }) {
         <Routes>
           <Route
             path="/home"
-            element={<HomePage isLogged={true} userDetails={userDetails} />}
+            element={<HomePage userDetails={userDetails} />}
           />
           <Route path="/users" element={<UsersList />} />
           <Route

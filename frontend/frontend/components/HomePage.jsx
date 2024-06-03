@@ -41,7 +41,13 @@ export default function HomePage({ userDetails }) {
         boxShadow="5px 5px 5px 5px black"
         padding="10px"
       >
-        <h1 style={{ textShadow: "5px 7p10px 5px black", margin: "0" }}>
+        <h1
+          style={{
+            textShadow: "5px 5px 5px black",
+            margin: "0",
+            fontFamily: "halvetica",
+          }}
+        >
           Welcome back, {userDetails.name}!
         </h1>
 

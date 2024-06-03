@@ -107,8 +107,6 @@ export default function ProjectComponent({ userDetails }) {
         borderRadius="15px"
         marginTop="50px"
       >
-        <Heading>Project with ID {details.id}.</Heading>
-        <Divider border="2px solid black" />
         {updateState ? (
           <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
@@ -131,10 +129,11 @@ export default function ProjectComponent({ userDetails }) {
             </InputGroup>
           </FormControl>
         ) : (
-          <h1>{details.title}</h1>
+          <h1 style={{ textShadow: "5px 5px 5px black" }}>{details.title}</h1>
         )}
+        <Text margin="0">ID: {details.id}</Text>
         <Divider border="2px solid black" />
-        <h2> Description </h2>
+        <h2 style={{ textShadow: "5px 5px 5px black" }}> Description </h2>
         {updateState ? (
           <FormControl justifyContent={"center"} width="90%">
             <FormLabel>Title</FormLabel>
@@ -157,10 +156,12 @@ export default function ProjectComponent({ userDetails }) {
             </InputGroup>
           </FormControl>
         ) : (
-          <Text>{details.description}</Text>
+          <Heading margin="0 10px 0 10px" fontFamily="halvetica">
+            {details.description}
+          </Heading>
         )}
         <Divider border="2px solid black" />
-        <Text>
+        <Text textShadow="5px 5px 5px black">
           Managed by {""}
           <Link
             to={`/users/${details.managedByUserId}`}
@@ -170,7 +171,11 @@ export default function ProjectComponent({ userDetails }) {
           </Link>
         </Text>
 
-        <Table width="90%" border="2px solid black">
+        <Table
+          width="90%"
+          border="2px solid black"
+          boxShadow="2px 2px 5px 2px black"
+        >
           <Thead backgroundColor="black">
             <Tr>
               <Td width="30%">Name</Td>
@@ -239,17 +244,21 @@ export default function ProjectComponent({ userDetails }) {
                     });
                   }}
                 >
-                  {users.map((user) => (
-                    <option
-                      key={user.id}
-                      value={user.id}
-                      disabled={details.members.some(
-                        (member) => member.user.id === user.id
-                      )}
-                    >
-                      {user.name} - {user.role}
-                    </option>
-                  ))}
+                  {users
+                    .filter(
+                      (user) => user.role !== "MANAGER" && user.role !== "ADMIN"
+                    )
+                    .map((user) => (
+                      <option
+                        key={user.id}
+                        value={user.id}
+                        disabled={details.members.some(
+                          (member) => member.user.id === user.id
+                        )}
+                      >
+                        {user.name} - {user.role}
+                      </option>
+                    ))}
                 </select>
               </InputGroup>
             </FormControl>
@@ -273,12 +282,14 @@ export default function ProjectComponent({ userDetails }) {
                         getAndSetDetails();
                       }}
                       rightIcon={<MdCancel />}
+                      bg="orange"
                     >
                       Cancel
                     </Button>
                     <Button
                       onClick={() => handleUpdate()}
                       rightIcon={<MdSave />}
+                      bg="darkorange"
                     >
                       Save
                     </Button>

@@ -15,7 +15,6 @@ function App() {
 
   if (token) {
     userDetails = getUserInfoFromCookiesToken(token);
-    console.log(userDetails);
   }
 
   return (

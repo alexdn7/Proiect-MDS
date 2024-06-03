@@ -39,7 +39,9 @@ export default function Header({ userDetails }) {
               : null
           }
         >
-          <Button leftIcon={<FaTicketSimple />}>My tickets</Button>
+          {userDetails.role !== "MANAGER" ? (
+            <Button leftIcon={<FaTicketSimple />}>My tickets</Button>
+          ) : null}
         </Link>
         <Link to="/auth/actions">
           <Button leftIcon={<RiAdminFill />}>Actions</Button>

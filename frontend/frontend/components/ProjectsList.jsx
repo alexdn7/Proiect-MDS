@@ -43,12 +43,12 @@ export default function ProjectsList() {
     <Flex
       justifyContent="center"
       width="100%"
+      minWidth="fit-content"
       height="100%"
       minHeight="fit-content"
     >
       <VStack
-        width={projects.length > 0 ? "90%" : "40%"}
-        minWidth="fit-content"
+        width="80%"
         border="2px solid black"
         boxShadow="0px 0px 10px 5px black"
         borderRadius="15px"
@@ -57,7 +57,7 @@ export default function ProjectsList() {
         <Heading>All projects</Heading>
         {projects.length > 0 ? (
           <Grid
-            templateColumns="33% 33% 33%"
+            templateColumns="1fr 1fr 1fr"
             padding="30px"
             gap="15px"
             minWidth="fit-content"

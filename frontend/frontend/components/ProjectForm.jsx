@@ -168,11 +168,15 @@ export default function ProjectForm({ userDetails }) {
                   })
                 }
               >
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name} - {user.role}
-                  </option>
-                ))}
+                {users
+                  .filter(
+                    (user) => user.role !== "MANAGER" && user.role !== "ADMIN"
+                  )
+                  .map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name} - {user.role}
+                    </option>
+                  ))}
               </select>
             </InputGroup>
           </FormControl>
