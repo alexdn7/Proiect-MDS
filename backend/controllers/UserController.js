@@ -13,9 +13,16 @@ const getAllUsers = async (request, response) => {
     });
     response.status(StatusCodes.OK).json(usersWithoutPassword);
   } catch (error) {
-    response
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: `Errro fetching data ${error}` });
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
+  }
+};
+
+const getUsersCount = async (request, response) => {
+  try {
+    const count = await prisma.user.count();
+    response.status(StatusCodes.OK).json({ totalUsers: count });
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }
 };
 
@@ -87,8 +94,14 @@ const deleteUser = async (request, response) => {
       .status(StatusCodes.OK)
       .json({ message: `User with ID ${deletedUser.id} succesfully deleted!` });
   } catch (error) {
-    response.status(StatusCodes.BAD_REQUEST).json(error.message);
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }
 };
 
-module.exports = { getAllUsers, getUserById, updateUser, deleteUser };
+module.exports = {
+  getAllUsers,
+  getUsersCount,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

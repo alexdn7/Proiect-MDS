@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../src/Header.css";
 import { useAuth } from "./AuthProvider";
+import { MdHome } from "react-icons/md";
 
 export default function Header({ userDetails }) {
   const navigate = useNavigate();
-  const {logout} = useAuth();
+  const { logout } = useAuth();
 
   function handleLogout() {
     logout();
@@ -22,6 +23,10 @@ export default function Header({ userDetails }) {
     <HStack padding="30px" height="fit-content" width="auto full">
       <Spacer />
       <HStack>
+        <Link to="/home">
+          <Button leftIcon={<MdHome />}>Home</Button>
+        </Link>
+
         <Link to="/tickets">
           <Button leftIcon={<IoTicketSharp />}>Tickets</Button>
         </Link>
@@ -43,7 +48,7 @@ export default function Header({ userDetails }) {
         <Link to={`/users/${userDetails.userId}`}>
           <Button leftIcon={<CgProfile />}>Profile</Button>
         </Link>
-        
+
         <Button leftIcon={<RiLogoutBoxRFill />} onClick={() => handleLogout()}>
           Sign out
         </Button>

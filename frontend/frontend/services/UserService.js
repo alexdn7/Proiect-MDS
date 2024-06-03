@@ -12,6 +12,8 @@ const TOKEN_HEADER = {
 
 export const getAllUsers = () => axios.get(BASE_URL + "/", TOKEN_HEADER);
 
+export const getUsersCount = () => axios.get(BASE_URL + "/count", TOKEN_HEADER);
+
 export const getUserById = (userId) =>
   axios.get(BASE_URL + `/${userId}`, TOKEN_HEADER);
 

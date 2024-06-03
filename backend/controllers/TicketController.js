@@ -5,8 +5,14 @@ const prisma = new PrismaClient();
 
 const createTicket = async (request, response) => {
   try {
-    const { title, description, createdByUserId, priority, projectId, assignedToUserId } =
-      request.body;
+    const {
+      title,
+      description,
+      createdByUserId,
+      priority,
+      projectId,
+      assignedToUserId,
+    } = request.body;
     const createdTicket = await prisma.ticket.create({
       data: {
         title: title,
@@ -88,6 +94,15 @@ const getAllTickets = async (request, response) => {
     response.status(StatusCodes.OK).json(tickets);
   } catch (error) {
     response.status(StatusCodes.BAD_REQUEST).json(`${error}`);
+  }
+};
+
+const getTicketsCount = async (request, response) => {
+  try {
+    const count = await prisma.ticket.count();
+    response.status(StatusCodes.OK).json({ totalTickets: count });
+  } catch (error) {
+    response.status(StatusCodes.BAD_REQUEST).send(error.message);
   }
 };
 
@@ -196,6 +211,7 @@ const deleteTicket = async (request, response) => {
 module.exports = {
   createTicket,
   getAllTickets,
+  getTicketsCount,
   getTicketById,
   updateTicket,
   deleteTicket,
