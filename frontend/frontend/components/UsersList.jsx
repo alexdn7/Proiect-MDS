@@ -22,14 +22,15 @@ import { Link } from "react-router-dom";
 import { FaTrashCan } from "react-icons/fa6";
 export default function UsersList() {
   const [users, setUsers] = useState([]);
+  const [role, setRole] = useState(null);
   const userInfo = getUserInfoFromCookiesToken();
 
   useEffect(() => {
     getAndSetUsers();
-  }, []);
+  }, [role]);
 
   function getAndSetUsers() {
-    getAllUsers()
+    getAllUsers(role)
       .then((response) => {
         setUsers(response.data);
       })
@@ -73,7 +74,7 @@ export default function UsersList() {
           <h3>Filter</h3>
           <Spacer />
           <select
-            // onChange={(e) => handleChange(e, "priority")}
+            onChange={(e) => setRole(e.target.value)}
             defaultValue=""
             style={{
               width: 15 + "%",

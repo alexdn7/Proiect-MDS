@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const BASE_URL = "http://localhost:3000/tickets";
 const token = Cookies.get("token");
@@ -9,11 +9,13 @@ const TOKEN_HEADER = {
   },
 };
 
-
-export const createTicket = (ticketDto) => axios.post(BASE_URL, ticketDto);
+export const createTicket = (ticketDto) => axios.post(BASE_URL, ticketDto, TOKEN_HEADER);
 
 export const getAllTickets = (queryParams) =>
   axios.get(BASE_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { ...queryParams },
   });
 

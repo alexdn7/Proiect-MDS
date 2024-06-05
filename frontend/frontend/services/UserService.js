@@ -10,7 +10,13 @@ const TOKEN_HEADER = {
   },
 };
 
-export const getAllUsers = () => axios.get(BASE_URL + "/", TOKEN_HEADER);
+export const getAllUsers = (role) =>
+  axios.get(BASE_URL + "/", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: { role: role },
+  });
 
 export const getUsersCount = () => axios.get(BASE_URL + "/count", TOKEN_HEADER);
 

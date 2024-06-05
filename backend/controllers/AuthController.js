@@ -48,9 +48,6 @@ const login = async (request, response) => {
       where: { email: email },
     });
 
-    console.log(password);
-    console.log(existingUser.password);
-    console.log(await bcrypt.compare(password, existingUser.password));
     if (!(await bcrypt.compare(password, existingUser.password))) {
       throw new Error("Incorrect password!");
     }

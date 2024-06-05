@@ -6,7 +6,14 @@ const prisma = new PrismaClient();
 
 const getAllUsers = async (request, response) => {
   try {
-    const users = await prisma.user.findMany();
+    // If we want to get only users with a specified role, we have to add it in a where condition
+    const { role } = request.query;
+    console.log(role);
+    const users = await prisma.user.findMany({
+      where: {
+        role: role,
+      },
+    });
     const usersWithoutPassword = users.map((user) => {
       const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
